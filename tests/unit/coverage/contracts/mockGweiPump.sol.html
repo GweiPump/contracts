@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for contracts/mockGweiPump.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">contracts/</a> mockGweiPump.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">45.83% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>11/24</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">28.57% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>4/14</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">50% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>5/10</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">45.83% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>11/24</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: MIT
+pragma solidity 0.8.17;
+&nbsp;
+import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
+import "@chainlink/contracts/src/v0.8/ChainlinkClient.sol";
+import "@chainlink/contracts/src/v0.8/KeeperCompatible.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+&nbsp;
+error notOwner(); //Using custom errors with revert saves gas compared to using require.
+error pumpNotFilled();
+error msgValueTooSmall();
+error oraclePriceFeedZero();
+error upKeepNotNeeded();
+&nbsp;
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+&nbsp;
+contract LINK is ERC20{
+&nbsp;
+    address immutable Owner;
+&nbsp;
+    constructor() ERC20("Wrapped Ether","LINK") {
+        Owner = msg.sender;
+        _mint(Owner,(1000)*(1 ether) );
+    }
+&nbsp;
+}
+&nbsp;
+contract ERC20TokenContract is ERC20("ChainLink Token", "LINK") {}
+&nbsp;
+// contract mockGweiPump is ChainlinkClient, KeeperCompatibleInterface {
+contract mockGweiPump {
+&nbsp;
+&nbsp;
+    uint public isPumpFilled = 1;
+    uint public lastWtiPriceCheckUnixTime;
+    uint public WtiPriceOracle; //Estimated value on request: 8476500000. Will get cross chain with Universal Adapter on Mumbai Polygon: https://etherscan.io/address/0xf3584f4dd3b467e73c2339efd008665a70a4185c#readContract latest price
+&nbsp;
+    address public immutable Owner;// Slot 2: 32/32 Owner never changes, use immutable to save gas.
+    int public immutable feeThreeThousandthPercent = 3;
+&nbsp;
+    event oilBought();
+    event updateWti();
+&nbsp;
+    // AggregatorV3Interface internal priceFeedETHforUSD;
+    ERC20TokenContract public erc20LINK;
+    // using Chainlink for Chainlink.Request;
+&nbsp;
+    constructor(address mockLinkAddress) {
+        Owner = msg.sender;
+        // priceFeedETHforUSD =  AggregatorV3Interface(0xd0D5e3DB44DE05E9F294BB0a3bEEaF030DE24Ada); //Pricefeed addresses: https://docs.chain.link/docs/data-feeds/price-feeds/addresses/?network=polygon#Mumbai%20Testnet
+        // erc20LINK = ERC20TokenContract(0x326C977E6efc84E512bB9C30f76E30c160eD06FB); //ChainlinkToken on Mumbai;
+        erc20LINK = ERC20TokenContract(mockLinkAddress); //ChainlinkToken on Mumbai;
+        // setChainlinkToken(0x326C977E6efc84E512bB9C30f76E30c160eD06FB); //Needed for Chainlink node data requests.
+    }
+&nbsp;
+    // function chainlinkNodeRequestWtiPrice() public returns (bytes32 requestId) {
+    //     Chainlink.Request memory request = buildChainlinkRequest("bbf0badad29d49dc887504bacfbb905b", address(this), this.fulfill.selector); //UINT
+    //     request.add("get", "https://datasource.kapsarc.org/api/records/1.0/search/?dataset=spot-prices-for-crude-oil-and-petroleum-products&amp;q=&amp;facet=period");
+    //     request.add("path", "records.0.fields.europe_brent_spot_price_fob_daily");
+    //     int timesAmount = 100000000;
+    //     request.addInt("times", timesAmount);
+    //     return sendChainlinkRequestTo(0xc8D925525CA8759812d0c299B90247917d4d4b7C, request, 10**16); //0.01 LINK
+    // }
+&nbsp;
+    function mockChainlinkNodeRequestWtiPrice(uint mockOracleValue) public {
+        // Chainlink.Request memory request = buildChainlinkRequest("bbf0badad29d49dc887504bacfbb905b", address(this), this.fulfill.selector); //UINT
+        // request.add("get", "https://datasource.kapsarc.org/api/records/1.0/search/?dataset=spot-prices-for-crude-oil-and-petroleum-products&amp;q=&amp;facet=period");
+        // request.add("path", "records.0.fields.europe_brent_spot_price_fob_daily");
+        // int timesAmount = 100000000;
+        // request.addInt("times", timesAmount);
+        // return sendChainlinkRequestTo(0xc8D925525CA8759812d0c299B90247917d4d4b7C, request, 10**16); //0.01 LINK
+        mockfulfill(mockOracleValue);
+    }
+&nbsp;
+    // function fulfill(bytes32 _requestId, uint256 memoryWtiPriceOracle) public recordChainlinkFulfillment(_requestId) {
+    //     if(memoryWtiPriceOracle &gt; 0) {
+    //         WtiPriceOracle = memoryWtiPriceOracle;
+    //     }
+    //     lastWtiPriceCheckUnixTime = block.timestamp;
+    //     emit updateWti();
+    // }
+&nbsp;
+    function mockfulfill(uint memoryWtiPriceOracle) public {
+        if(memoryWtiPriceOracle &gt; 0) {
+            WtiPriceOracle = memoryWtiPriceOracle;
+        }
+        lastWtiPriceCheckUnixTime = block.timestamp;
+        emit updateWti();
+    }
+&nbsp;
+    // function getLatestMaticUsd() public view returns (int) { // Use MATIC since 40 Milliliters is not expensive and we can pay MATIC, easy to see in Metamask.
+    //     (uint80 roundID, int price, uint startedAt, uint timeStamp, uint80 answeredInRound) = priceFeedETHforUSD.latestRoundData();
+    //     return price;
+    // }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function mockGetLatestMaticUsd() public view returns (int) { // Use MATIC since 40 Milliliters is not expensive and we can pay MATIC, easy to see in Metamask.</span>
+        // (uint80 roundID, int price, uint startedAt, uint timeStamp, uint80 answeredInRound) = priceFeedETHforUSD.latestRoundData();
+<span class="cstat-no" title="statement not covered" >        return 80087692;</span>
+    }
+&nbsp;
+    // function getLatestWtiMatic() public view returns (uint) {
+    //     return uint( (int(WtiPriceOracle)*(10**18)*((1000+feeThreeThousandthPercent)/1000)) / getLatestMaticUsd() );
+    // }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function mockGetLatestWtiMatic() public view returns (uint) {</span>
+<span class="cstat-no" title="statement not covered" >        return uint( (int(WtiPriceOracle)*(10**18)*((1000+feeThreeThousandthPercent)/1000)) / mockGetLatestMaticUsd() );</span>
+    }
+&nbsp;
+    // function Wti40Milliliters() public view returns (uint) { // 1 US BBL = 158987.29 mL =&gt; WtiConvert140mL() = (40.00 mL * getLatesWtiUsd() ) / 158987.29 mL = ( (4000*getLatesWtiUsd() ) / 15898729 )
+    //     return ( (4000*getLatestWtiUsd() ) /15898729);
+    // }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function mockWti40Milliliters() public view returns (uint) { // 1 US BBL = 158987.29 mL =&gt; WtiConvert140mL() = (40.00 mL * getLatesWtiUsd() ) / 158987.29 mL = ( (4000*getLatesWtiUsd() ) / 15898729 )</span>
+<span class="cstat-no" title="statement not covered" >        return ( (4000*mockGetLatestWtiMatic() ) /15898729);</span>
+    }
+&nbsp;
+    // function checkUpkeep(bytes calldata) external override returns (bool upkeepNeeded, bytes memory) {
+    //     upkeepNeeded = ( ( block.timestamp &gt;= (lastWtiPriceCheckUnixTime + 86400) ) &amp;&amp; (erc20LINK.balanceOf(address(this)) &gt;= (0.01 ether) ) );
+    // }
+&nbsp;
+    // function performUpkeep(bytes calldata) external override {
+    //     chainlinkNodeRequestWtiPrice();
+    // }
+&nbsp;
+    // function manualUpKeep() public {
+    //     if(false == ( ( block.timestamp &gt;= (lastWtiPriceCheckUnixTime + 86400) ) &amp;&amp; (erc20LINK.balanceOf(address(this)) &gt;= (0.01 ether) ) )) {revert upKeepNotNeeded(); }
+    //     chainlinkNodeRequestWtiPrice();
+    // }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function manualUpKeep(uint mockOracleValue) public {</span>
+<span class="cstat-no" title="statement not covered" >        if(false == ( ( block.timestamp &gt;= (lastWtiPriceCheckUnixTime + 86400) ) &amp;&amp; (erc20LINK.balanceOf(address(this)) &gt;= (0.01 ether) ) )) {revert upKeepNotNeeded(); }</span>
+<span class="cstat-no" title="statement not covered" >        mockChainlinkNodeRequestWtiPrice(mockOracleValue)</span>;
+    }
+&nbsp;
+    // function buyOil40Milliliters() public payable  {
+    //     if(isPumpFilled == 0) { revert pumpNotFilled(); }
+    //     if(Wti40Milliliters() == 0) { revert oraclePriceFeedZero(); }
+    //     if(msg.value &lt; Wti40Milliliters() ) { revert msgValueTooSmall(); } // Price for MSG.VALUE can change in mempool. Allow user to overpay then refund them.
+    //     isPumpFilled = 0;
+    //     if(msg.value &gt; Wti40Milliliters() ) { //Refund user if they overpaid.
+    //         payable(msg.sender).transfer(msg.value -  Wti40Milliliters() );
+    //     }
+    //     payable(Owner).transfer(address(this).balance);
+    //     emit oilBought();
+    // }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function buyOil40Milliliters() public payable  {</span>
+<span class="cstat-no" title="statement not covered" >        if(isPumpFilled == 0) { revert pumpNotFilled(); }</span>
+<span class="cstat-no" title="statement not covered" >        if(mockWti40Milliliters() == 0) { revert oraclePriceFeedZero(); }</span>
+<span class="cstat-no" title="statement not covered" >        if(msg.value &lt; mockWti40Milliliters() ) { revert msgValueTooSmall(); }</span> // Price for MSG.VALUE can change in mempool. Allow user to overpay then refund them.
+<span class="cstat-no" title="statement not covered" >        isPumpFilled = 0</span>;
+<span class="cstat-no" title="statement not covered" >        if(msg.value &gt; mockWti40Milliliters() ) { //Refund user if they overpaid.</span>
+<span class="cstat-no" title="statement not covered" >            payable(msg.sender).transfer(msg.value -  mockWti40Milliliters() )</span>;
+        }
+<span class="cstat-no" title="statement not covered" >        payable(Owner).transfer(address(this).balance)</span>;
+<span class="cstat-no" title="statement not covered" >        emit oilBought();</span>
+    }
+&nbsp;
+    function ownerPumpFilledStatus(uint status) public {
+        if(msg.sender != Owner){ revert notOwner();}
+        isPumpFilled = status;
+    }
+&nbsp;
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Oct 15 2022 12:36:19 GMT-0400 (Eastern Daylight Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

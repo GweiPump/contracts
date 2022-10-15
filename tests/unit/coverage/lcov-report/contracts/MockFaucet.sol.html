@@ -1,0 +1,566 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for contracts/MockFaucet.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">contracts/</a> MockFaucet.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">3.92% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>2/51</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/46</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">12.5% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>2/16</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">3.77% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>2/53</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: MIT
+pragma solidity 0.8.17;
+&nbsp;
+contract MockGoerliBridge {
+&nbsp;
+    address public immutable Owner;
+&nbsp;
+    mapping(address =&gt; uint) public lockedForOptimismETH;
+    mapping(address =&gt; uint) public goerliBridgedETH;
+&nbsp;
+    error msgValueZero(); //Using custom errors with revert saves gas compared to using require.
+    error msgValueLessThan1000();
+    error msgValueDoesNotCoverFee();
+    error notOwnerAddress();
+    error bridgedAlready();
+    error bridgeOnOtherSideNeedsLiqudity();
+    error bridgeEmpty();
+    error ownerBridgeUsersBeforeWithdraw();
+    error queueIsEmpty();
+    error queueNotEmpty();
+    error notExternalBridge();
+&nbsp;
+    constructor() {
+        Owner = msg.sender;
+    }
+&nbsp;
+    MockOptimismBridge public optimismBridgeInstance;
+&nbsp;
+    // struct addressBridgeBalance{
+    //     address userToBridge;
+    //     uint bridgeAmount;
+    // }
+&nbsp;
+    // mapping(uint =&gt; addressBridgeBalance) public queue;
+    mapping(uint =&gt; address) public queue; //Modified from //https://programtheblockchain.com/posts/2018/03/23/storage-patterns-stacks-queues-and-deques/
+&nbsp;
+    uint256 public last; //Do not declare 0 directly, will waste gas.
+    uint256 public first = 1;
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function enqueue() private { //Should not be called outside of contract or by anyone else, private.</span>
+<span class="cstat-no" title="statement not covered" >        last += 1</span>;
+        // queue[last].userToBridge = msg.sender;
+        // queue[last].bridgeAmount = bridgeAmount;
+<span class="cstat-no" title="statement not covered" >        queue[last] = msg.sender</span>;
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function dequeue() external { //Gets called by the other bridge contract, external.</span>
+<span class="cstat-no" title="statement not covered" >        if (msg.sender != address(optimismBridgeInstance) &amp;&amp; address(optimismBridgeInstance) != address(0)) { revert notExternalBridge(); }</span> //Protect function external with owner call
+<span class="cstat-no" title="statement not covered" >        if (last &lt; first) { revert queueIsEmpty(); }</span> //Removed require for this since it costs less gas.
+        delete queue[first];
+<span class="cstat-no" title="statement not covered" >        first += 1</span>;
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function lockTokensForOptimism(uint bridgeAmount) public payable {</span>
+<span class="cstat-no" title="statement not covered" >        if (bridgeAmount &lt; 1000) { revert msgValueLessThan1000(); }</span>
+<span class="cstat-no" title="statement not covered" >        if (msg.value != (1003*bridgeAmount)/1000 ) { revert msgValueDoesNotCoverFee(); }</span>
+<span class="cstat-no" title="statement not covered" >        if (address(optimismBridgeInstance).balance &lt; bridgeAmount) { revert bridgeOnOtherSideNeedsLiqudity(); }</span>
+<span class="cstat-no" title="statement not covered" >        lockedForOptimismETH[msg.sender] += (1000*msg.value)/1003</span>;
+<span class="cstat-no" title="statement not covered" >        enqueue()</span>;
+<span class="cstat-no" title="statement not covered" >        payable(Owner).transfer(msg.value)</span>;
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function ownerUnlockOptimismETH() public {</span>
+&nbsp;
+        //MAYBE WE DON'T NEED THE STRUCT AND JUST LOOK AT QUEUE FOR LOCKED AMOUNT????
+        // (address userToBridge, uint bridgeAmount) = goerliBridgeInstance.queue(goerliBridgeInstance.last());
+<span class="cstat-no" title="statement not covered" >        if (msg.sender != Owner) { revert notOwnerAddress(); }</span>
+<span class="cstat-no" title="statement not covered" >        if (optimismBridgeInstance.last() &lt; optimismBridgeInstance.first()) { revert queueIsEmpty(); }</span> //Removed require for this since it costs less gas.
+<span class="cstat-no" title="statement not covered" >        address userToBridge = optimismBridgeInstance.queue(optimismBridgeInstance.last());</span>
+<span class="cstat-no" title="statement not covered" >        optimismBridgeInstance.dequeue()</span>; //Only this contract address set from the other contract from owner can call this function.
+<span class="cstat-no" title="statement not covered" >        uint sendETH = optimismBridgeInstance.lockedForGoerliETH(userToBridge)- goerliBridgedETH[userToBridge];</span>
+<span class="cstat-no" title="statement not covered" >        goerliBridgedETH[userToBridge] += sendETH</span>;
+<span class="cstat-no" title="statement not covered" >        payable(userToBridge).transfer(sendETH)</span>;
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function ownerAddBridgeLiqudity() public payable {</span>
+<span class="cstat-no" title="statement not covered" >        if (msg.sender != Owner) { revert notOwnerAddress(); }</span>
+<span class="cstat-no" title="statement not covered" >        if (msg.value == 0) { revert msgValueZero(); }</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function ownerRemoveBridgeLiqudity() public  {</span>
+<span class="cstat-no" title="statement not covered" >        if (address(this).balance == 0) { revert bridgeEmpty(); }</span>
+<span class="cstat-no" title="statement not covered" >        if (optimismBridgeInstance.last() &gt;= optimismBridgeInstance.first()) { revert queueNotEmpty(); }</span> //Removed require for this since it costs less gas.
+<span class="cstat-no" title="statement not covered" >        payable(Owner).transfer(address(this).balance)</span>;
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function mockOwnerOptimismBridgeAddress(address _token) public{</span>
+<span class="cstat-no" title="statement not covered" >        if (msg.sender != Owner) { revert notOwnerAddress(); }</span>
+<span class="cstat-no" title="statement not covered" >        optimismBridgeInstance = MockOptimismBridge(_token)</span>;
+    }
+&nbsp;
+}
+&nbsp;
+contract MockOptimismBridge {
+&nbsp;
+    address public immutable Owner;
+&nbsp;
+    mapping(address =&gt; uint) public lockedForGoerliETH;
+    mapping(address =&gt; uint) public optimismBridgedETH;
+&nbsp;
+    error msgValueZero(); //Using custom errors with revert saves gas compared to using require.
+    error msgValueLessThan1000();
+    error msgValueDoesNotCoverFee();
+    error notOwnerAddress();
+    error bridgeEmpty();
+    error queueIsEmpty();
+    error queueNotEmpty();
+    error notExternalBridge();
+&nbsp;
+    MockGoerliBridge public goerliBridgeInstance;
+&nbsp;
+    mapping(uint =&gt; address) public queue;
+&nbsp;
+    uint256 public last; //Do not declare 0 directly, will waste gas.
+    uint256 public first = 1;
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function enqueue() private { //Should not be called outside of contract or by anyone else, private.</span>
+<span class="cstat-no" title="statement not covered" >        last += 1</span>;
+<span class="cstat-no" title="statement not covered" >        queue[last] = msg.sender</span>;
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function dequeue() external { //Removed return value, not needed.</span>
+<span class="cstat-no" title="statement not covered" >        if (msg.sender != address(goerliBridgeInstance) &amp;&amp; address(goerliBridgeInstance) != address(0)) { revert notExternalBridge(); }</span> //Protect function external with owner call
+<span class="cstat-no" title="statement not covered" >        if (last &lt; first) { revert queueIsEmpty(); }</span> //Removed require for this since it costs less gas.
+        delete queue[first];
+<span class="cstat-no" title="statement not covered" >        first += 1</span>;
+    }
+&nbsp;
+    constructor() {
+        Owner = msg.sender;
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function lockTokensForGoerli(uint bridgeAmount) public payable {</span>
+<span class="cstat-no" title="statement not covered" >        if (bridgeAmount &lt; 1000) { revert msgValueLessThan1000(); }</span>
+<span class="cstat-no" title="statement not covered" >        if (msg.value != (1003*bridgeAmount)/1000 ) { revert msgValueDoesNotCoverFee(); }</span>
+<span class="cstat-no" title="statement not covered" >        lockedForGoerliETH[msg.sender] += (1000*msg.value)/1003</span>;
+<span class="cstat-no" title="statement not covered" >        enqueue()</span>;
+<span class="cstat-no" title="statement not covered" >        payable(Owner).transfer(msg.value)</span>;
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function ownerUnlockOptimismETH() public {</span>
+<span class="cstat-no" title="statement not covered" >        if (msg.sender != Owner) { revert notOwnerAddress(); }</span>
+<span class="cstat-no" title="statement not covered" >        if (goerliBridgeInstance.last() &lt; goerliBridgeInstance.first()) { revert queueIsEmpty(); }</span> //Removed require for this since it costs less gas.
+<span class="cstat-no" title="statement not covered" >        address userToBridge = goerliBridgeInstance.queue(goerliBridgeInstance.last());</span>
+<span class="cstat-no" title="statement not covered" >        goerliBridgeInstance.dequeue()</span>; //Only this contract address set from the other contract from owner can call this function.
+<span class="cstat-no" title="statement not covered" >        uint sendETH = goerliBridgeInstance.lockedForOptimismETH(userToBridge)- optimismBridgedETH[userToBridge];</span>
+<span class="cstat-no" title="statement not covered" >        optimismBridgedETH[userToBridge] += sendETH</span>;
+<span class="cstat-no" title="statement not covered" >        payable(userToBridge).transfer(sendETH)</span>;
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function ownerAddBridgeLiqudity() public payable {</span>
+<span class="cstat-no" title="statement not covered" >        if (msg.sender != Owner) { revert notOwnerAddress(); }</span>
+<span class="cstat-no" title="statement not covered" >        if (msg.value == 0) { revert msgValueZero(); }</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function ownerRemoveBridgeLiqudity() public  {</span>
+<span class="cstat-no" title="statement not covered" >        if (address(this).balance == 0) { revert bridgeEmpty(); }</span>
+<span class="cstat-no" title="statement not covered" >        if (goerliBridgeInstance.last() &gt;= goerliBridgeInstance.first()) { revert queueNotEmpty(); }</span> //Removed require for this since it costs less gas.
+<span class="cstat-no" title="statement not covered" >        payable(Owner).transfer(address(this).balance)</span>;
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function mockOwnerOptimismBridgeAddress(address _token) public{</span>
+<span class="cstat-no" title="statement not covered" >        if (msg.sender != Owner) { revert notOwnerAddress(); }</span>
+<span class="cstat-no" title="statement not covered" >        goerliBridgeInstance = MockGoerliBridge(_token)</span>;
+    }
+&nbsp;
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Sep 09 2022 13:20:34 GMT-0400 (Eastern Daylight Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

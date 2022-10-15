@@ -46,7 +46,7 @@ contract GweiPump is ChainlinkClient, KeeperCompatibleInterface {
         return sendChainlinkRequestTo(0xc8D925525CA8759812d0c299B90247917d4d4b7C, request, 10**16); //0.01 LINK
     }
 
-    function fulfill(bytes32 _requestId, uint256 memoryWtiPriceOracle) public recordChainlinkFulfillment(_requestId) {
+    function fulfill(bytes32 _requestId, uint memoryWtiPriceOracle) public recordChainlinkFulfillment(_requestId) {
         if(memoryWtiPriceOracle > 0) {
             WtiPriceOracle = memoryWtiPriceOracle;
         }
@@ -59,16 +59,16 @@ contract GweiPump is ChainlinkClient, KeeperCompatibleInterface {
         return price;
     }
 
-    function getLatestWtiUsd() public view returns (uint) {
+    function getLatestWtiMatic() public view returns (uint) {
         return uint( (int(WtiPriceOracle)*(10**18)*((1000+feeThreeThousandthPercent)/1000)) / getLatestMaticUsd() );
     }
 
     function Wti40Milliliters() public view returns (uint) { // 1 US BBL = 158987.29 mL => WtiConvert140mL() = (40.00 mL * getLatesWtiUsd() ) / 158987.29 mL = ( (4000*getLatesWtiUsd() ) / 15898729 )
-        return ( (4000*getLatestWtiUsd() ) /15898729);
+        return ( (4000*getLatestWtiMatic() ) /15898729);
     }
 
     function checkUpkeep(bytes calldata) external override returns (bool upkeepNeeded, bytes memory) {
-        upkeepNeeded = ( ( block.timestamp >= (lastWtiPriceCheckUnixTime + 120) ) && (erc20LINK.balanceOf(address(this)) >= (0.01 ether) ) );
+        upkeepNeeded = ( ( block.timestamp >= (lastWtiPriceCheckUnixTime + 86400) ) && (erc20LINK.balanceOf(address(this)) >= (0.01 ether) ) );
     }
 
     function performUpkeep(bytes calldata) external override {
@@ -76,7 +76,7 @@ contract GweiPump is ChainlinkClient, KeeperCompatibleInterface {
     }
 
     function manualUpKeep() public {
-        if(false == ( ( block.timestamp >= (lastWtiPriceCheckUnixTime + 120) ) && (erc20LINK.balanceOf(address(this)) >= (0.01 ether) ) )) {revert upKeepNotNeeded(); }
+        if(false == ( ( block.timestamp >= (lastWtiPriceCheckUnixTime + 86400) ) && (erc20LINK.balanceOf(address(this)) >= (0.01 ether) ) )) {revert upKeepNotNeeded(); }
         chainlinkNodeRequestWtiPrice();
     }
 
