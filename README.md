@@ -11,6 +11,8 @@
   1 US BBL = 158987.29 mL =>
   WtiConvert140mL() = (40.00 mL * getLatesWtiUsd() ) / 158987.29 mL = ( (4000*getLatesWtiUsd() ) / 15898729 )
 
+  -Test Chainlink Keepers (timer every 30 seconds updated, will modify for timer to request every 24 hours if contract has >= 0.01 LINK) https://automation.chain.link/mumbai/78520095513294193464006513836944378975229422366780570674402238720759652250863
+
   *Will use Chainlink Keepers to update the WTI/USD priceFeed
   from Ethereum Mainnet using Universal Adapter Chainlink Oracle daily if the contract has 1 LINK.
 
@@ -19,3 +21,7 @@
 ## Vocktails
 
   Get random drinks from robotics pump with Chainlink VRFv2.
+
+  Vocktails VRFv2 Subscription:
+
+  https://vrf.chain.link/mumbai/2217
