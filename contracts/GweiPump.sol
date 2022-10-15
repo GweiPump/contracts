@@ -18,13 +18,13 @@ contract GweiPump is ChainlinkClient, KeeperCompatibleInterface {
 
     uint public isPumpFilled = 1;
     uint public lastWtiPriceCheckUnixTime;
-    uint public WtiPriceOracle; //Will get cross chain with Universal Adapter on Mumbai Polygon: https://etherscan.io/address/0xf3584f4dd3b467e73c2339efd008665a70a4185c#readContract latest price
+    uint public WtiPriceOracle; //Estimated value on request: 8476500000. Will get cross chain with Universal Adapter on Mumbai Polygon: https://etherscan.io/address/0xf3584f4dd3b467e73c2339efd008665a70a4185c#readContract latest price
 
     address public immutable Owner;// Slot 2: 32/32 Owner never changes, use immutable to save gas.
     int public immutable feeThreeThousandthPercent = 3;
-    // int public immutable mockPriceWTI = 8476500000; //Will get cross chain with Universal Adapter on Mumbai Polygon: https://etherscan.io/address/0xf3584f4dd3b467e73c2339efd008665a70a4185c#readContract latest price
 
     event oilBought();
+    event updateWti();
 
     AggregatorV3Interface internal priceFeedETHforUSD;
     ERC20TokenContract public erc20LINK;
@@ -51,16 +51,13 @@ contract GweiPump is ChainlinkClient, KeeperCompatibleInterface {
             WtiPriceOracle = memoryWtiPriceOracle;
         }
         lastWtiPriceCheckUnixTime = block.timestamp;
+        emit updateWti();
     }
 
     function getLatestMaticUsd() public view returns (int) { // Use MATIC since 40 Milliliters is not expensive and we can pay MATIC, easy to see in Metamask.
         (uint80 roundID, int price, uint startedAt, uint timeStamp, uint80 answeredInRound) = priceFeedETHforUSD.latestRoundData();
         return price;
     }
-
-    // function getLatesWtiUsd() public view returns (uint) {
-    //     return uint( (mockPriceWTI*(10**18)*((1000+feeThreeThousandthPercent)/1000)) / getLatestEthUsd() );
-    // }
 
     function getLatestWtiUsd() public view returns (uint) {
         return uint( (int(WtiPriceOracle)*(10**18)*((1000+feeThreeThousandthPercent)/1000)) / getLatestMaticUsd() );
