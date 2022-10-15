@@ -4,11 +4,15 @@ pragma solidity 0.8.17;
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import "@chainlink/contracts/src/v0.8/ChainlinkClient.sol";
 import "@chainlink/contracts/src/v0.8/KeeperCompatible.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 error notOwner(); //Using custom errors with revert saves gas compared to using require.
 error pumpNotFilled();
 error msgValueTooSmall();
 error oraclePriceFeedZero();
+error upKeepNotNeeded();
+
+contract ERC20TokenContract is ERC20("ChainLink Token", "LINK") {}
 
 contract GweiPump is ChainlinkClient, KeeperCompatibleInterface {
 
@@ -20,13 +24,17 @@ contract GweiPump is ChainlinkClient, KeeperCompatibleInterface {
     int public immutable feeThreeThousandthPercent = 3;
     // int public immutable mockPriceWTI = 8476500000; //Will get cross chain with Universal Adapter on Mumbai Polygon: https://etherscan.io/address/0xf3584f4dd3b467e73c2339efd008665a70a4185c#readContract latest price
 
+    event oilBought();
+
     AggregatorV3Interface internal priceFeedETHforUSD;
+    ERC20TokenContract public erc20LINK;
     using Chainlink for Chainlink.Request;
 
     constructor() {
         Owner = msg.sender;
         priceFeedETHforUSD =  AggregatorV3Interface(0xd0D5e3DB44DE05E9F294BB0a3bEEaF030DE24Ada); //Pricefeed addresses: https://docs.chain.link/docs/data-feeds/price-feeds/addresses/?network=polygon#Mumbai%20Testnet
-        setChainlinkToken(0x326C977E6efc84E512bB9C30f76E30c160eD06FB); //Needed for Chainlink requests.
+        erc20LINK = ERC20TokenContract(0x326C977E6efc84E512bB9C30f76E30c160eD06FB); //ChainlinkToken on Mumbai;
+        setChainlinkToken(0x326C977E6efc84E512bB9C30f76E30c160eD06FB); //Needed for Chainlink node data requests.
     }
 
     function chainlinkNodeRequestWtiPrice() public returns (bytes32 requestId) {
@@ -63,15 +71,19 @@ contract GweiPump is ChainlinkClient, KeeperCompatibleInterface {
     }
 
     function checkUpkeep(bytes calldata) external override returns (bool upkeepNeeded, bytes memory) {
-        //CHECK IF LINK BALANCE IS GREATER THAN 0.01 LINK
-        upkeepNeeded = ( (block.timestamp+120) > lastWtiPriceCheckUnixTime );
+        upkeepNeeded = ( ((block.timestamp+86400) > lastWtiPriceCheckUnixTime ) && (erc20LINK.balanceOf(address(this)) >= (0.01 ether) ) );
     }
 
     function performUpkeep(bytes calldata) external override {
         chainlinkNodeRequestWtiPrice();
     }
 
-    function buyOneBarrelOil() public payable  {
+    function manualUpKeep() public {
+        if(false == ( ((block.timestamp+86400) > lastWtiPriceCheckUnixTime ) && (erc20LINK.balanceOf(address(this)) >= (0.01 ether) ) )) {revert upKeepNotNeeded(); }
+        chainlinkNodeRequestWtiPrice();
+    }
+
+    function buyOil40Milliliters() public payable  {
         if(isPumpFilled == 0) { revert pumpNotFilled(); }
         if(Wti40Milliliters() == 0) { revert oraclePriceFeedZero(); }
         if(msg.value < Wti40Milliliters() ) { revert msgValueTooSmall(); } // Price for MSG.VALUE can change in mempool. Allow user to overpay then refund them.
@@ -80,6 +92,7 @@ contract GweiPump is ChainlinkClient, KeeperCompatibleInterface {
             payable(msg.sender).transfer(msg.value -  Wti40Milliliters() );
         }
         payable(Owner).transfer(address(this).balance);
+        emit oilBought();
     }
 
     function ownerPumpFilledStatus(uint status) public {
