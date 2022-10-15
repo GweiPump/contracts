@@ -15,10 +15,12 @@
   nodes: https://linkriver.io/#nodes
   jobId: https://market.link/nodes/63a49b1a-1951-4887-8f3f-8684d70c41ea/jobs?network=80001
 
-  -Tested Chainlink Keepers (timer every 30 seconds updated, will modify for timer to request every 24 hours if contract has >= 0.01 LINK [LinkRiver] ) https://automation.chain.link/mumbai/78520095513294193464006513836944378975229422366780570674402238720759652250863
+  -Chainlink Keepers updates WTI/USD based timer on daily timer,
+  and if contract has >= 0.01 LINK [LinkRiver node request fee] )
+  https://automation.chain.link/mumbai/36355086272015919814976068457284744937532473452883708021113428603360821554132
 
   *Get WTI/USD priceFeed from Ethereum Mainnet using Universal Adapter Chainlink Oracle daily if the contract has 1
-  LINK:
+  LINK [just change the current logic check to 1 LINK instead of 0.01 LINK].
 
   WTI/USD on Chainlink website: https://data.chain.link/ethereum/mainnet/commodities/wti-usd
 
