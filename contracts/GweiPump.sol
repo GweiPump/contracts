@@ -71,7 +71,7 @@ contract GweiPump is ChainlinkClient, KeeperCompatibleInterface {
     }
 
     function checkUpkeep(bytes calldata) external override returns (bool upkeepNeeded, bytes memory) {
-        upkeepNeeded = ( ((block.timestamp+86400) > lastWtiPriceCheckUnixTime ) && (erc20LINK.balanceOf(address(this)) >= (0.01 ether) ) );
+        upkeepNeeded = ( ( block.timestamp >= (lastWtiPriceCheckUnixTime + 120) ) && (erc20LINK.balanceOf(address(this)) >= (0.01 ether) ) );
     }
 
     function performUpkeep(bytes calldata) external override {
@@ -79,7 +79,7 @@ contract GweiPump is ChainlinkClient, KeeperCompatibleInterface {
     }
 
     function manualUpKeep() public {
-        if(false == ( ((block.timestamp+86400) > lastWtiPriceCheckUnixTime ) && (erc20LINK.balanceOf(address(this)) >= (0.01 ether) ) )) {revert upKeepNotNeeded(); }
+        if(false == ( ( block.timestamp >= (lastWtiPriceCheckUnixTime + 120) ) && (erc20LINK.balanceOf(address(this)) >= (0.01 ether) ) )) {revert upKeepNotNeeded(); }
         chainlinkNodeRequestWtiPrice();
     }
 
