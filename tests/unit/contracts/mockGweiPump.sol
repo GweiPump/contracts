@@ -144,7 +144,7 @@ contract mockGweiPump {
     //     emit oilBought();
     // }
 
-    function buyOil40Milliliters() public payable  {
+    function mockBuyOil40Milliliters() public payable  {
         if(isPumpFilled == 0) { revert pumpNotFilled(); }
         if(mockWti40Milliliters() == 0) { revert oraclePriceFeedZero(); }
         if(msg.value < mockWti40Milliliters() ) { revert msgValueTooSmall(); } // Price for MSG.VALUE can change in mempool. Allow user to overpay then refund them.

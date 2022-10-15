@@ -75,4 +75,15 @@ describe("mockGweiPump Tests:", function () {
 
          });
 
+         describe("mockBuyOil40Milliliters(status)", function () {
+           it("Revert if msg.sender != Owner", async function () {
+             await expect(
+               deployedMockGweiPump.mockBuyOil40Milliliters()
+             ).to.be.revertedWith("oraclePriceFeedZero()");
+           });
+           
+          });
+
+
+
 });
