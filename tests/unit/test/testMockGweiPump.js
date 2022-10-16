@@ -130,6 +130,60 @@ describe("mockGweiPump Tests:", function () {
            });
           });
 
+          describe("manualUpKeep(status)", function () {
+            it("Revert if contract has less than 0.01 LINK", async function () {
+              await expect(
+                deployedMockGweiPump.manualUpKeep("8476500000")
+              ).to.be.revertedWith("upKeepNotNeeded()");
+            });
+            it("upKeep once contract has 0.01 LINK at least", async function () {
+              const transactionCallAPI = await deployedErc20LINK.transfer(deployedMockGweiPump.address,"10000000000000000");
+              const tx_receiptCallAPI = await transactionCallAPI.wait();
+              expect(await deployedErc20LINK.balanceOf(deployedMockGweiPump.address)).to.equal("10000000000000000");
+
+              const transactionCallAPI2 = await deployedMockGweiPump.manualUpKeep("8476500000")
+              const tx_receiptCallAPI2 = await transactionCallAPI2.wait();
+              expect(await deployedMockGweiPump.WtiPriceOracle()).to.equal("8476500000");
+              expect(await deployedMockGweiPump.mockWti40Milliliters()).to.equal("26628602381573205");
+
+            });
+            it("Revert if not enough time has passed after an upKeep", async function () {
+              const transactionCallAPI = await deployedErc20LINK.transfer(deployedMockGweiPump.address,"20000000000000000");
+              const tx_receiptCallAPI = await transactionCallAPI.wait();
+              expect(await deployedErc20LINK.balanceOf(deployedMockGweiPump.address)).to.equal("20000000000000000");
+
+              const transactionCallAPI2 = await deployedMockGweiPump.manualUpKeep("8476500000")
+              const tx_receiptCallAPI2 = await transactionCallAPI2.wait();
+              expect(await deployedMockGweiPump.WtiPriceOracle()).to.equal("8476500000");
+              expect(await deployedMockGweiPump.mockWti40Milliliters()).to.equal("26628602381573205");
+
+              await network.provider.send("evm_increaseTime", [86385]) //1 block away from 1 day in seconds.
+              await network.provider.send("evm_mine") // Increase time.
+
+              await expect(
+                deployedMockGweiPump.manualUpKeep("8476500000")
+              ).to.be.revertedWith("upKeepNotNeeded()");
+            });
+            it("upKeep after enough time has passed from last upKeep", async function () {
+              const transactionCallAPI = await deployedErc20LINK.transfer(deployedMockGweiPump.address,"20000000000000000");
+              const tx_receiptCallAPI = await transactionCallAPI.wait();
+              expect(await deployedErc20LINK.balanceOf(deployedMockGweiPump.address)).to.equal("20000000000000000");
+
+              const transactionCallAPI2 = await deployedMockGweiPump.manualUpKeep("8476500000")
+              const tx_receiptCallAPI2 = await transactionCallAPI2.wait();
+              expect(await deployedMockGweiPump.WtiPriceOracle()).to.equal("8476500000");
+              expect(await deployedMockGweiPump.mockWti40Milliliters()).to.equal("26628602381573205");
+
+              await network.provider.send("evm_increaseTime", [86400])  //1 day in seconds.
+              await network.provider.send("evm_mine") // Increase time.
+
+              const transactionCallAPI3 = await deployedMockGweiPump.manualUpKeep("8476500000")
+              const tx_receiptCallAPI3 = await transactionCallAPI3.wait();
+              expect(await deployedMockGweiPump.WtiPriceOracle()).to.equal("8476500000");
+              expect(await deployedMockGweiPump.mockWti40Milliliters()).to.equal("26628602381573205");
+
+            });
+           });
 
 
 });
