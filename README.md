@@ -1,5 +1,9 @@
 # Contracts
 
+## :camera: Slide Presentation
+
+https://docs.google.com/presentation/d/1En3P14oi3CUcIWOaYxlzi5li4qDtajm3q3V0JpJfAYk/edit?usp=sharing
+
 ## GweiPump
 
   -MATIC/USD converted to on WTI/USD
