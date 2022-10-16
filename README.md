@@ -26,10 +26,16 @@
 
   *USE QUICKNODE POLYGON WSS TO LISTEN FOR EVENTS FOR ROBOTIC PUMP
 
+## Chainlink Universal Adapter Request: Node.js Puppeteer XPATH Web Scrape
+
   WTI/USD on Chainlink website: https://data.chain.link/ethereum/mainnet/commodities/wti-usd
 
   Chainlink website XPATH:
   /html/body/div[1]/main/section[2]/div[1]/div[1]/div[2]/p
+
+  :warning:
+
+  Puppeteer having trouble reading from XPATH [use the above working link instead]:
 
   Value on Etherscan on this page:
   https://etherscan.io/address/0xf3584f4dd3b467e73c2339efd008665a70a4185c#readContract
@@ -37,6 +43,7 @@
   Etherscan XPATH:
   /html/body/div[4]/div[8]/div[2]/div/form/div
 
+  :warning:
 
 Hardhat Solidity Coverage 100%:
 
