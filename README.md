@@ -47,7 +47,7 @@
 
 Hardhat Solidity Coverage 100%:
 
-<img src="https://github.com/GweiPump/contracts/blob/main/tests/unit/soldityCoverage.png" alt="Test"/>
+<img src="https://github.com/GweiPump/contracts/blob/main/tests/unit/testOutput.png" alt="Test"/>
 
 
 ## :cocktail: Vocktails

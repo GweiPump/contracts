@@ -39,9 +39,6 @@ describe("mockGweiPump Tests:", function () {
           it("Owner == msg.sender at deployment", async function () {
             expect(await deployedMockGweiPump.Owner()).to.equal(owner.address);
           });
-          it("feeThreeThousandthPercent == 3", async function () {
-            expect(await deployedMockGweiPump.feeThreeThousandthPercent()).to.equal("3");
-          });
        });
 
        describe("mockChainlinkNodeRequestWtiPrice(mockOracleValue)", function () {
@@ -85,10 +82,10 @@ describe("mockGweiPump Tests:", function () {
              const transactionCallAPI = await deployedMockGweiPump.mockChainlinkNodeRequestWtiPrice("8476500000");
              const tx_receiptCallAPI = await transactionCallAPI.wait();
              expect(await deployedMockGweiPump.WtiPriceOracle()).to.equal("8476500000");
-             expect(await deployedMockGweiPump.mockWti40Milliliters()).to.equal("26628602381573205");
+             expect(await deployedMockGweiPump.mockWti40Milliliters()).to.equal("26708488188717925");
 
              await expect(
-               deployedMockGweiPump.mockBuyOil40Milliliters({value: "26628602381573204"})
+               deployedMockGweiPump.mockBuyOil40Milliliters({value: "26708488188717924"})
              ).to.be.revertedWith("msgValueTooSmall()");
            });
 
@@ -96,9 +93,9 @@ describe("mockGweiPump Tests:", function () {
              const transactionCallAPI = await deployedMockGweiPump.mockChainlinkNodeRequestWtiPrice("8476500000");
              const tx_receiptCallAPI = await transactionCallAPI.wait();
              expect(await deployedMockGweiPump.WtiPriceOracle()).to.equal("8476500000");
-             expect(await deployedMockGweiPump.mockWti40Milliliters()).to.equal("26628602381573205");
+             expect(await deployedMockGweiPump.mockWti40Milliliters()).to.equal("26708488188717925");
 
-             const transactionCallAPI2 = await deployedMockGweiPump.mockBuyOil40Milliliters({value:"26628602381573205"});
+             const transactionCallAPI2 = await deployedMockGweiPump.mockBuyOil40Milliliters({value:"26708488188717925"});
              const tx_receiptCallAPI2 = await transactionCallAPI2.wait();
              expect(await deployedMockGweiPump.isPumpFilled()).to.equal("0");
 
@@ -107,9 +104,9 @@ describe("mockGweiPump Tests:", function () {
              const transactionCallAPI = await deployedMockGweiPump.mockChainlinkNodeRequestWtiPrice("8476500000");
              const tx_receiptCallAPI = await transactionCallAPI.wait();
              expect(await deployedMockGweiPump.WtiPriceOracle()).to.equal("8476500000");
-             expect(await deployedMockGweiPump.mockWti40Milliliters()).to.equal("26628602381573205");
+             expect(await deployedMockGweiPump.mockWti40Milliliters()).to.equal("26708488188717925");
 
-             const transactionCallAPI2 = await deployedMockGweiPump.mockBuyOil40Milliliters({value:"26628602381573206"});
+             const transactionCallAPI2 = await deployedMockGweiPump.mockBuyOil40Milliliters({value:"26708488188717926"});
              const tx_receiptCallAPI2 = await transactionCallAPI2.wait();
              expect(await deployedMockGweiPump.isPumpFilled()).to.equal("0");
 
@@ -118,14 +115,14 @@ describe("mockGweiPump Tests:", function () {
              const transactionCallAPI = await deployedMockGweiPump.mockChainlinkNodeRequestWtiPrice("8476500000");
              const tx_receiptCallAPI = await transactionCallAPI.wait();
              expect(await deployedMockGweiPump.WtiPriceOracle()).to.equal("8476500000");
-             expect(await deployedMockGweiPump.mockWti40Milliliters()).to.equal("26628602381573205");
+             expect(await deployedMockGweiPump.mockWti40Milliliters()).to.equal("26708488188717925");
 
-             const transactionCallAPI2 = await deployedMockGweiPump.mockBuyOil40Milliliters({value:"26628602381573206"});
+             const transactionCallAPI2 = await deployedMockGweiPump.mockBuyOil40Milliliters({value:"26708488188717925"});
              const tx_receiptCallAPI2 = await transactionCallAPI2.wait();
              expect(await deployedMockGweiPump.isPumpFilled()).to.equal("0");
 
              await expect(
-               deployedMockGweiPump.mockBuyOil40Milliliters({value: "26628602381573205"})
+               deployedMockGweiPump.mockBuyOil40Milliliters({value: "26708488188717925"})
              ).to.be.revertedWith("pumpNotFilled()");
            });
           });
@@ -144,7 +141,7 @@ describe("mockGweiPump Tests:", function () {
               const transactionCallAPI2 = await deployedMockGweiPump.manualUpKeep("8476500000")
               const tx_receiptCallAPI2 = await transactionCallAPI2.wait();
               expect(await deployedMockGweiPump.WtiPriceOracle()).to.equal("8476500000");
-              expect(await deployedMockGweiPump.mockWti40Milliliters()).to.equal("26628602381573205");
+              expect(await deployedMockGweiPump.mockWti40Milliliters()).to.equal("26708488188717925");
 
             });
             it("Revert if not enough time has passed after an upKeep", async function () {
@@ -155,7 +152,7 @@ describe("mockGweiPump Tests:", function () {
               const transactionCallAPI2 = await deployedMockGweiPump.manualUpKeep("8476500000")
               const tx_receiptCallAPI2 = await transactionCallAPI2.wait();
               expect(await deployedMockGweiPump.WtiPriceOracle()).to.equal("8476500000");
-              expect(await deployedMockGweiPump.mockWti40Milliliters()).to.equal("26628602381573205");
+              expect(await deployedMockGweiPump.mockWti40Milliliters()).to.equal("26708488188717925");
 
               await network.provider.send("evm_increaseTime", [86385]) //1 block away from 1 day in seconds.
               await network.provider.send("evm_mine") // Increase time.
@@ -172,7 +169,7 @@ describe("mockGweiPump Tests:", function () {
               const transactionCallAPI2 = await deployedMockGweiPump.manualUpKeep("8476500000")
               const tx_receiptCallAPI2 = await transactionCallAPI2.wait();
               expect(await deployedMockGweiPump.WtiPriceOracle()).to.equal("8476500000");
-              expect(await deployedMockGweiPump.mockWti40Milliliters()).to.equal("26628602381573205");
+              expect(await deployedMockGweiPump.mockWti40Milliliters()).to.equal("26708488188717925");
 
               await network.provider.send("evm_increaseTime", [86400])  //1 day in seconds.
               await network.provider.send("evm_mine") // Increase time.
@@ -180,7 +177,7 @@ describe("mockGweiPump Tests:", function () {
               const transactionCallAPI3 = await deployedMockGweiPump.manualUpKeep("8476500000")
               const tx_receiptCallAPI3 = await transactionCallAPI3.wait();
               expect(await deployedMockGweiPump.WtiPriceOracle()).to.equal("8476500000");
-              expect(await deployedMockGweiPump.mockWti40Milliliters()).to.equal("26628602381573205");
+              expect(await deployedMockGweiPump.mockWti40Milliliters()).to.equal("26708488188717925");
 
             });
            });

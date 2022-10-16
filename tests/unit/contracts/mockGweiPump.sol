@@ -36,7 +36,6 @@ contract mockGweiPump {
     uint public WtiPriceOracle; //Estimated value on request: 8476500000. Will get cross chain with Universal Adapter on Mumbai Polygon: https://etherscan.io/address/0xf3584f4dd3b467e73c2339efd008665a70a4185c#readContract latest price
 
     address public immutable Owner;// Slot 2: 32/32 Owner never changes, use immutable to save gas.
-    int public immutable feeThreeThousandthPercent = 3;
 
     event oilBought();
     event updateWti();
@@ -99,11 +98,11 @@ contract mockGweiPump {
     }
 
     // function getLatestWtiMatic() public view returns (uint) {
-    //     return uint( (int(WtiPriceOracle)*(10**18)*((1000+feeThreeThousandthPercent)/1000)) / getLatestMaticUsd() );
+    //    return uint( ((int(WtiPriceOracle*1003)*(10**18))/(1000)) / getLatestMaticUsd() );
     // }
 
     function mockGetLatestWtiMatic() public view returns (uint) {
-        return uint( (int(WtiPriceOracle)*(10**18)*((1000+feeThreeThousandthPercent)/1000)) / mockGetLatestMaticUsd() );
+        return uint( ((int(WtiPriceOracle*1003)*(10**18))/(1000)) / mockGetLatestMaticUsd() );
     }
 
     // function Wti40Milliliters() public view returns (uint) { // 1 US BBL = 158987.29 mL => WtiConvert140mL() = (40.00 mL * getLatesWtiUsd() ) / 158987.29 mL = ( (4000*getLatesWtiUsd() ) / 15898729 )
