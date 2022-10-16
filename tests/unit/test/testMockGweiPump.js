@@ -81,7 +81,53 @@ describe("mockGweiPump Tests:", function () {
                deployedMockGweiPump.mockBuyOil40Milliliters()
              ).to.be.revertedWith("oraclePriceFeedZero()");
            });
-           
+           it("Revert if msg.value < mockWti40Milliliters()", async function () {
+             const transactionCallAPI = await deployedMockGweiPump.mockChainlinkNodeRequestWtiPrice("8476500000");
+             const tx_receiptCallAPI = await transactionCallAPI.wait();
+             expect(await deployedMockGweiPump.WtiPriceOracle()).to.equal("8476500000");
+             expect(await deployedMockGweiPump.mockWti40Milliliters()).to.equal("26628602381573205");
+
+             await expect(
+               deployedMockGweiPump.mockBuyOil40Milliliters({value: "26628602381573204"})
+             ).to.be.revertedWith("msgValueTooSmall()");
+           });
+
+           it("Buy if msg.value == mockWti40Milliliters()", async function () {
+             const transactionCallAPI = await deployedMockGweiPump.mockChainlinkNodeRequestWtiPrice("8476500000");
+             const tx_receiptCallAPI = await transactionCallAPI.wait();
+             expect(await deployedMockGweiPump.WtiPriceOracle()).to.equal("8476500000");
+             expect(await deployedMockGweiPump.mockWti40Milliliters()).to.equal("26628602381573205");
+
+             const transactionCallAPI2 = await deployedMockGweiPump.mockBuyOil40Milliliters({value:"26628602381573205"});
+             const tx_receiptCallAPI2 = await transactionCallAPI2.wait();
+             expect(await deployedMockGweiPump.isPumpFilled()).to.equal("0");
+
+           });
+           it("Buy and refund extra amount msg.value > mockWti40Milliliters()", async function () {
+             const transactionCallAPI = await deployedMockGweiPump.mockChainlinkNodeRequestWtiPrice("8476500000");
+             const tx_receiptCallAPI = await transactionCallAPI.wait();
+             expect(await deployedMockGweiPump.WtiPriceOracle()).to.equal("8476500000");
+             expect(await deployedMockGweiPump.mockWti40Milliliters()).to.equal("26628602381573205");
+
+             const transactionCallAPI2 = await deployedMockGweiPump.mockBuyOil40Milliliters({value:"26628602381573206"});
+             const tx_receiptCallAPI2 = await transactionCallAPI2.wait();
+             expect(await deployedMockGweiPump.isPumpFilled()).to.equal("0");
+
+           });
+           it("Revert if Owner did not refill pump after bought from user", async function () {
+             const transactionCallAPI = await deployedMockGweiPump.mockChainlinkNodeRequestWtiPrice("8476500000");
+             const tx_receiptCallAPI = await transactionCallAPI.wait();
+             expect(await deployedMockGweiPump.WtiPriceOracle()).to.equal("8476500000");
+             expect(await deployedMockGweiPump.mockWti40Milliliters()).to.equal("26628602381573205");
+
+             const transactionCallAPI2 = await deployedMockGweiPump.mockBuyOil40Milliliters({value:"26628602381573206"});
+             const tx_receiptCallAPI2 = await transactionCallAPI2.wait();
+             expect(await deployedMockGweiPump.isPumpFilled()).to.equal("0");
+
+             await expect(
+               deployedMockGweiPump.mockBuyOil40Milliliters({value: "26628602381573205"})
+             ).to.be.revertedWith("pumpNotFilled()");
+           });
           });
 
 
