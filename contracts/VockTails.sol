@@ -11,7 +11,7 @@ contract VockTails is VRFConsumerBaseV2 {
   LinkTokenInterface public LINKTOKEN;
 
   uint public requestId;
-  uint[] public oneRandomWord;
+  uint public randomDrinkValue;
 
   event drinkVRF();
 
@@ -31,7 +31,7 @@ contract VockTails is VRFConsumerBaseV2 {
   }
 
   function fulfillRandomWords(uint,  uint[] memory randomWords) internal override {
-    oneRandomWord = randomWords; //drinkValue = (oneRandomWord[0] % 3), compute off chain to save gas.; //Drink values 0 [one], 1 [two] and 2 [mixed].
+    randomDrinkValue = (randomWords[0]%3)+1; //drinkValue = (oneRandomWord[0] % 3)+1; //Drink values 1 [one], 2 [two] and 3 [mixed].
     emit drinkVRF();
   }
 
