@@ -21,8 +21,10 @@
   Chainlink Keepers Tested for every 120 seconds for data requests:
   https://automation.chain.link/mumbai/28627704143175605969914145047990488382129654323040445773310494415714392303066
 
-  *Get WTI/USD priceFeed from Ethereum Mainnet using Universal Adapter Chainlink Oracle daily if the contract has 1
+  *Get WTI/USD priceFeed from Ethereum Mainnet using Universal Adapter Chainlink Oracle (POLYGON MUMBAI EXCLUSIVE) daily if the contract has 1
   LINK [just change the current logic check to 1 LINK instead of 0.01 LINK].
+
+  *USE QUICKNODE POLYGON WSS TO LISTEN FOR EVENTS FOR ROBOTIC PUMP
 
   WTI/USD on Chainlink website: https://data.chain.link/ethereum/mainnet/commodities/wti-usd
 
@@ -34,6 +36,11 @@
 
   Etherscan XPATH:
   /html/body/div[4]/div[8]/div[2]/div/form/div
+
+
+Hardhat Solidity Coverage 100%:
+
+<img src="https://github.com/GweiPump/contracts/blob/main/tests/unit/soldityCoverage.png" alt="Test"/>
 
 
 ## Vocktails
