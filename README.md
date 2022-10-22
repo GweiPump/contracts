@@ -2,19 +2,27 @@
 
 ## :oil_drum: GweiPump
 
+### Chainlink Pricefeeds
+
   -MATIC/USD converted to on WTI/USD
 
   -Using MATIC/USD pricefeed from Chainlink contract:
 
   https://mumbai.polygonscan.com/address/0xd0D5e3DB44DE05E9F294BB0a3bEEaF030DE24Ada#code
 
+### Chainlink Node GET Request uint 
+
   -WTI/USD is on Ethereum Mainnet but not Mumbai, so GET WTI/USD from Kapsarc using LinkRiver Chainlink node request:
 
   https://datasource.kapsarc.org/explore/dataset/spot-prices-for-crude-oil-and-petroleum-products/api/
 
-  Kapsarc open source JSON WTI/USD URL (latest WTI/USD JSON path: records.0.fields.cushing_ok_wti_spot_price_fob_daily):
+  Kapsarc open source JSON WTI/USD URL (latest WTI/USD JSON path:
 
   https://datasource.kapsarc.org/api/records/1.0/search/?dataset=spot-prices-for-crude-oil-and-petroleum-products&q=&facet=period
+
+  with JSON path for WTI/USD:
+
+        records.0.fields.cushing_ok_wti_spot_price_fob_daily
 
   -Allow user to overpay for oil, then refund them if price changes while their payment is stuck in the mempool
 
@@ -29,6 +37,8 @@
 
   jobId: https://market.link/nodes/63a49b1a-1951-4887-8f3f-8684d70c41ea/jobs?network=80001
 
+### Chainlink Keepers
+
   -Chainlink Keepers updates WTI/USD based timer on 1 day timer
   and if contract has >= 0.01 LINK [LinkRiver node request fee] )
 
@@ -36,17 +46,14 @@
 
   https://automation.chain.link/mumbai/6989339503514991400051131250819682806817201475595233657790971703276505316631
 
-  *Get WTI/USD priceFeed from Ethereum Mainnet using Universal Adapter Chainlink Oracle (POLYGON MUMBAI EXCLUSIVE) daily if the contract has 1
-  LINK [just change the current logic check to 1 LINK instead of 0.01 LINK].
-
-  *USE QUICKNODE POLYGON WSS TO LISTEN FOR EVENTS FOR ROBOTIC PUMP
-
 Hardhat Solidity Coverage 100%:
 
 <img src="https://github.com/GweiPump/contracts/blob/main/tests/unit/testOutput.png" alt="Test"/>
 
 
 ## :cocktail: Vocktails
+
+### Chainlink VRFv2
 
   Get random drinks from robotics pump with Chainlink VRFv2.
 
