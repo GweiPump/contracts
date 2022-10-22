@@ -39,7 +39,7 @@ contract GweiPump is ChainlinkClient, KeeperCompatibleInterface {
     function chainlinkNodeRequestWtiPrice() public returns (bytes32 requestId) {
         Chainlink.Request memory request = buildChainlinkRequest("bbf0badad29d49dc887504bacfbb905b", address(this), this.fulfill.selector); //UINT
         request.add("get", "https://datasource.kapsarc.org/api/records/1.0/search/?dataset=spot-prices-for-crude-oil-and-petroleum-products&q=&facet=period");
-        request.add("path", "records.0.fields.europe_brent_spot_price_fob_daily");
+        request.add("path", "records.0.fields.cushing_ok_wti_spot_price_fob_daily");
         int timesAmount = 100000000;
         request.addInt("times", timesAmount);
         return sendChainlinkRequestTo(0xc8D925525CA8759812d0c299B90247917d4d4b7C, request, 10**16); //0.01 LINK

@@ -4,6 +4,18 @@
 
   -MATIC/USD converted to on WTI/USD
 
+  -Using MATIC/USD pricefeed from Chainlink contract:
+
+  https://mumbai.polygonscan.com/address/0xd0D5e3DB44DE05E9F294BB0a3bEEaF030DE24Ada#code
+
+  -WTI/USD is on Ethereum Mainnet but not Mumbai, so GET WTI/USD from Kapsarc using LinkRiver Chainlink node request:
+
+  https://datasource.kapsarc.org/explore/dataset/spot-prices-for-crude-oil-and-petroleum-products/api/
+
+  Kapsarc open source JSON WTI/USD URL (latest WTI/USD JSON path: records.0.fields.cushing_ok_wti_spot_price_fob_daily):
+
+  https://datasource.kapsarc.org/api/records/1.0/search/?dataset=spot-prices-for-crude-oil-and-petroleum-products&q=&facet=period
+
   -Allow user to overpay for oil, then refund them if price changes while their payment is stuck in the mempool
 
   -Converting 1 barrel price 40 milliliters [1 US bbl oil= 158987.29mL]:
@@ -12,38 +24,22 @@
   WtiConvert140mL() = (40.00 mL * getLatesWtiUsd() ) / 158987.29 mL = ( (4000*getLatesWtiUsd() ) / 15898729 )
 
   -Using LinkRiver node to get WTI/USD on Mumbai:
+
   nodes: https://linkriver.io/#nodes
+
   jobId: https://market.link/nodes/63a49b1a-1951-4887-8f3f-8684d70c41ea/jobs?network=80001
 
-  -Chainlink Keepers updates WTI/USD based timer on 1 minute timer
+  -Chainlink Keepers updates WTI/USD based timer on 1 day timer
   and if contract has >= 0.01 LINK [LinkRiver node request fee] )
 
-  Chainlink Keepers Tested for every 120 seconds for data requests:
-  https://automation.chain.link/mumbai/28627704143175605969914145047990488382129654323040445773310494415714392303066
+  Chainlink Keepers Log:
+
+  https://automation.chain.link/mumbai/6989339503514991400051131250819682806817201475595233657790971703276505316631
 
   *Get WTI/USD priceFeed from Ethereum Mainnet using Universal Adapter Chainlink Oracle (POLYGON MUMBAI EXCLUSIVE) daily if the contract has 1
   LINK [just change the current logic check to 1 LINK instead of 0.01 LINK].
 
   *USE QUICKNODE POLYGON WSS TO LISTEN FOR EVENTS FOR ROBOTIC PUMP
-
-## Chainlink Universal Adapter Request: Node.js Puppeteer XPATH Web Scrape
-
-  WTI/USD on Chainlink website: https://data.chain.link/ethereum/mainnet/commodities/wti-usd
-
-  Chainlink website XPATH:
-  /html/body/div[1]/main/section[2]/div[1]/div[1]/div[2]/p
-
-  :warning:
-
-  Puppeteer having trouble reading from XPATH [use the above working link instead]:
-
-  Value on Etherscan on this page:
-  https://etherscan.io/address/0xf3584f4dd3b467e73c2339efd008665a70a4185c#readContract
-
-  Etherscan XPATH:
-  /html/body/div[4]/div[8]/div[2]/div/form/div
-
-  :warning:
 
 Hardhat Solidity Coverage 100%:
 
@@ -61,3 +57,22 @@ Hardhat Solidity Coverage 100%:
 ## :camera: Slide Presentation
 
 https://docs.google.com/presentation/d/1En3P14oi3CUcIWOaYxlzi5li4qDtajm3q3V0JpJfAYk/edit?usp=sharing
+
+## :red_circle: Chainlink Universal Adapter Request: Node.js Puppeteer XPATH Web Scrape (offline) :red_circle:
+
+  WTI/USD on Chainlink website: https://data.chain.link/ethereum/mainnet/commodities/wti-usd
+
+  Chainlink website XPATH:
+  /html/body/div[1]/main/section[2]/div[1]/div[1]/div[2]/p
+
+  :warning:
+
+  Puppeteer having trouble reading from XPATH [use the above working link instead]:
+
+  Value on Etherscan on this page:
+  https://etherscan.io/address/0xf3584f4dd3b467e73c2339efd008665a70a4185c#readContract
+
+  Etherscan XPATH:
+  /html/body/div[4]/div[8]/div[2]/div/form/div
+
+  :warning:
