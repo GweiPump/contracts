@@ -2,6 +2,10 @@
 
 ## :oil_drum: GweiPump
 
+GweiPump verified contract on Mumbai:
+
+https://mumbai.polygonscan.com/address/0xd27759C36967E299ef16df8FAac24D4adb21665c#code
+
 ### Chainlink Pricefeeds
 
   -MATIC/USD converted to on WTI/USD
@@ -10,7 +14,7 @@
 
   https://mumbai.polygonscan.com/address/0xd0D5e3DB44DE05E9F294BB0a3bEEaF030DE24Ada#code
 
-### Chainlink Node GET Request uint 
+### Chainlink Node GET Request uint
 
   -WTI/USD is on Ethereum Mainnet but not Mumbai, so GET WTI/USD from Kapsarc using LinkRiver Chainlink node request:
 
@@ -52,6 +56,10 @@ Hardhat Solidity Coverage 100%:
 
 
 ## :cocktail: Vocktails
+
+Vocktails verified contract on Mumbai:
+
+https://mumbai.polygonscan.com/address/0xc14708b1faf3737602ea69b68c893beb58bab5a7#code
 
 ### Chainlink VRFv2
 
