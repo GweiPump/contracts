@@ -4,7 +4,7 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 import "@chainlink/contracts/src/v0.8/ChainlinkClient.sol";
 import "@chainlink/contracts/src/v0.8/ConfirmedOwner.sol";
 
-contract TruflationCrudeOilMumbai is ChainlinkClient { 
+contract TruflationCrudeOilMumbai is ChainlinkClient {
 
     bytes   public result;
     address public constant oracleId = 0x6D141Cf6C43f7eABF94E288f5aa3f23357278499; //MUMBAI 
@@ -19,10 +19,10 @@ contract TruflationCrudeOilMumbai is ChainlinkClient {
 	    setChainlinkToken(0x326C977E6efc84E512bB9C30f76E30c160eD06FB); //MUMBAI LINK TOKEN
     }
 
-    function crudeOilRequestChainlinkTruflation() public returns (bytes32 requestId) { //Values for string inputs automated here: https://marketplace.truflation.com/
+    function crudeOilRequestChainlinkTruflation() public returns (bytes32 requestId) {
         Chainlink.Request memory req = buildChainlinkRequest(bytes32(bytes(jobId)), address(this), this.fulfillBytes.selector);
         req.add("service", "truflation/data");
-        req.add("data", "{id:8002050}");
+        req.add("data", "{'id':'8002050'}");
         req.add("keypath", "value");
         req.add("abi", "uint256");
         req.add("multiplier", "1000000000000000000");
