@@ -1,3 +1,4 @@
+
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.17;
 import "@openzeppelin/contracts/utils/Strings.sol";
@@ -11,7 +12,6 @@ contract TruflationCrudeOilMumbai is ChainlinkClient {
     string  public  constant  jobId = "d220e5e687884462909a03021385b7ae"; //MUMBAI
     uint256 public constant fee = 1 ether;   //1 LINK TOKEN
 
-    mapping(bytes32 => bytes) public results;
 
     using Chainlink for Chainlink.Request;
 
@@ -22,26 +22,15 @@ contract TruflationCrudeOilMumbai is ChainlinkClient {
     function crudeOilRequestChainlinkTruflation() public returns (bytes32 requestId) {
         Chainlink.Request memory req = buildChainlinkRequest(bytes32(bytes(jobId)), address(this), this.fulfillBytes.selector);
         req.add("service", "truflation/series");
-        req.add("data", "{ ids: '301', types: '121', start_date: '2022-08-01', end_date: '2022-08-01' }");
+        req.add("data", "{ids:'301',types:'121',start_date:'2022-08-01',end_date:'2022-08-01'}");
         req.add("keypath", "result.0.1.0");
         req.add("abi", "int256");
         req.add("multiplier", "1000000000000000000");
         return sendChainlinkRequestTo(oracleId, req, fee);
     }
 
-    function fulfillBytes(bytes32 _requestId, int bytesData)
-        public recordChainlinkFulfillment(_requestId) {
+    function fulfillBytes(bytes32 _requestId, int bytesData) public recordChainlinkFulfillment(_requestId) {
         result = bytesData;
     }
 
-    function getInt256(bytes32 _requestId) public view returns (int256) {
-       return toInt256(results[_requestId]);
-    }
-
-    function toInt256(bytes memory _bytes) internal pure
-      returns (int256 value) {
-          assembly {
-            value := mload(add(_bytes, 0x20))
-      }
-   }
 }
