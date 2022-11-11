@@ -7,10 +7,10 @@ import "@chainlink/contracts/src/v0.8/ConfirmedOwner.sol";
 
 contract TruflationCrudeOilMumbai is ChainlinkClient {
 
+    uint public constant fee = 1 ether;   //1 LINK TOKEN
     int   public result;
     address public constant oracleId = 0x6D141Cf6C43f7eABF94E288f5aa3f23357278499; //MUMBAI 
-    string  public  constant  jobId = "d220e5e687884462909a03021385b7ae"; //MUMBAI
-    uint256 public constant fee = 1 ether;   //1 LINK TOKEN
+    string  public constant  jobId = "d220e5e687884462909a03021385b7ae"; //MUMBAI
 
     using Chainlink for Chainlink.Request;
 
