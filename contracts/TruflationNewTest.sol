@@ -12,7 +12,6 @@ contract TruflationCrudeOilMumbai is ChainlinkClient {
     string  public  constant  jobId = "d220e5e687884462909a03021385b7ae"; //MUMBAI
     uint256 public constant fee = 1 ether;   //1 LINK TOKEN
 
-
     using Chainlink for Chainlink.Request;
 
     constructor() {
@@ -25,7 +24,7 @@ contract TruflationCrudeOilMumbai is ChainlinkClient {
         req.add("data", "{ids:'301',types:'121',start_date:'2022-08-01',end_date:'2022-08-01'}");
         req.add("keypath", "result.0.1.0");
         req.add("abi", "int256");
-        req.add("multiplier", "1000000000000000000");
+        req.add("multiplier", "100000000000000");
         return sendChainlinkRequestTo(oracleId, req, fee);
     }
 
