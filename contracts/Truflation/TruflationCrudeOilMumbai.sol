@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
-
 pragma solidity 0.8.17;
+
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@chainlink/contracts/src/v0.8/ChainlinkClient.sol";
 import "@chainlink/contracts/src/v0.8/ConfirmedOwner.sol";
@@ -20,7 +20,7 @@ contract TruflationCrudeOilMumbai is ChainlinkClient {
 
     function crudeOilRequestChainlinkTruflation() public returns (bytes32 requestId) {
         Chainlink.Request memory req = buildChainlinkRequest(bytes32(bytes(jobId)), address(this), this.fulfillBytes.selector);
-        req.add("service", "truflation/data");
+        req.add("service", "truflation/current");
         req.add("data", "{'id':'8002050'}");
         req.add("keypath", "value");
         req.add("abi", "uint256");
