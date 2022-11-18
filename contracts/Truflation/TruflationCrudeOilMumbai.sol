@@ -22,6 +22,7 @@ contract TruflationCrudeOilMumbai is ChainlinkClient {
         Chainlink.Request memory req = buildChainlinkRequest(bytes32(bytes(jobId)), address(this), this.fulfillBytes.selector);
         req.add("service", "truflation/current");
         req.add("data", "{'id':'603'}");
+        // req.add("data", "{ ids: '603'}");
         req.add("keypath", "value");
         req.add("abi", "uint256");
         req.add("multiplier", "10000000000000000000");
