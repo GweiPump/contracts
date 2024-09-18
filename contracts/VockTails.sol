@@ -1,38 +1,36 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.17;
+pragma solidity 0.8.26;
 
 import "@chainlink/contracts/src/v0.8/interfaces/LinkTokenInterface.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
 import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
 
-contract VockTails is VRFConsumerBaseV2 {
+contract VRFv2LightShow is VRFConsumerBaseV2 {
+  VRFCoordinatorV2Interface COORDINATOR;
+  LinkTokenInterface LINKTOKEN;
 
-  VRFCoordinatorV2Interface public COORDINATOR;
-  LinkTokenInterface public LINKTOKEN;
+  uint256[] public twoRandomWords;
+  uint256 requestId; 
+  event lightShowUpdate();
 
-  uint public requestId;
-  uint public randomDrinkValue;
-
-  event drinkVRF();
-
-  constructor() VRFConsumerBaseV2(0x7a1BaC17Ccc5b313516C5E16fb24f7659aA5ebed) {
-    COORDINATOR = VRFCoordinatorV2Interface(0x7a1BaC17Ccc5b313516C5E16fb24f7659aA5ebed);
-    LINKTOKEN = LinkTokenInterface(0x326C977E6efc84E512bB9C30f76E30c160eD06FB);
+  constructor() VRFConsumerBaseV2(0x6168499c0cFfCaCD319c818142124B7A15E857ab) {
+    COORDINATOR = VRFCoordinatorV2Interface(0x6168499c0cFfCaCD319c818142124B7A15E857ab);
+    LINKTOKEN = LinkTokenInterface(0x01BE23585060835E02B77ef475b0Cc51aA1e0709);
   }
 
-  function requestRandomWords() external { //https://docs.chain.link/docs/vrf/v2/subscription/supported-networks/#polygon-matic-mumbai-testnet
+  function requestRandomWords() external {
       requestId = COORDINATOR.requestRandomWords(
-      0x4b09e658ed251bcafeebbc69400383d49f344ace09b9576fe248bb02c003fe9f, //keyHash
-      2217,     //subscriptionId [Get your ID here https://vrf.chain.link/]
-      3,        //Confirmations
-      2500000,  //callbackGasLimit
-      1         //numWords
+      0xd89b2bf150e3b9e13446986e571fb9cab24b13cea0a43ea20a6049a85cc807cc, //keyHash
+      529,    //subscriptionId [Get your ID here https://vrf.chain.link/]
+      3,      //Confirmations
+      100000, //callbackGasLimit
+      2       //numWords
     );
   }
-
-  function fulfillRandomWords(uint,  uint[] memory randomWords) internal override {
-    randomDrinkValue = (randomWords[0]%3)+1; //drinkValue = (oneRandomWord[0] % 3)+1; //Drink values 1 [one], 2 [two] and 3 [mixed].
-    emit drinkVRF();
+  
+  function fulfillRandomWords(uint256,  uint256[] memory randomWords) internal override {
+    twoRandomWords = randomWords;
+    emit lightShowUpdate();
   }
 
 }

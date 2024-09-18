@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.17;
+pragma solidity 0.8.26;
 
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import "@chainlink/contracts/src/v0.8/ChainlinkClient.sol";
@@ -33,16 +33,16 @@ contract GweiPump is ChainlinkClient, KeeperCompatibleInterface {
         Owner = msg.sender;
         priceFeedETHforUSD =  AggregatorV3Interface(0xd0D5e3DB44DE05E9F294BB0a3bEEaF030DE24Ada); //Pricefeed addresses: https://docs.chain.link/docs/data-feeds/price-feeds/addresses/?network=polygon#Mumbai%20Testnet
         erc20LINK = ERC20TokenContract(0x326C977E6efc84E512bB9C30f76E30c160eD06FB); //ChainlinkToken on Mumbai;
-        setChainlinkToken(0x326C977E6efc84E512bB9C30f76E30c160eD06FB); //Needed for Chainlink node data requests.
+        _setChainlinkToken(0x326C977E6efc84E512bB9C30f76E30c160eD06FB); //Needed for Chainlink node data requests.
     }
 
     function chainlinkNodeRequestWtiPrice() public returns (bytes32 requestId) {
-        Chainlink.Request memory request = buildChainlinkRequest("bbf0badad29d49dc887504bacfbb905b", address(this), this.fulfill.selector); //UINT
-        request.add("get", "https://datasource.kapsarc.org/api/records/1.0/search/?dataset=spot-prices-for-crude-oil-and-petroleum-products&q=&facet=period");
-        request.add("path", "records.0.fields.cushing_ok_wti_spot_price_fob_daily");
+        Chainlink.Request memory request = _buildChainlinkRequest("bbf0badad29d49dc887504bacfbb905b", address(this), this.fulfill.selector); //UINT
+        request._add("get", "https://datasource.kapsarc.org/api/records/1.0/search/?dataset=spot-prices-for-crude-oil-and-petroleum-products&q=&facet=period");
+        request._add("path", "records.0.fields.cushing_ok_wti_spot_price_fob_daily");
         int timesAmount = 100000000;
-        request.addInt("times", timesAmount);
-        return sendChainlinkRequestTo(0xc8D925525CA8759812d0c299B90247917d4d4b7C, request, 10**16); //0.01 LINK
+        request._addInt("times", timesAmount);
+        return _sendChainlinkRequestTo(0xc8D925525CA8759812d0c299B90247917d4d4b7C, request, 10**16); //0.01 LINK
     }
 
     function fulfill(bytes32 _requestId, uint memoryWtiPriceOracle) public recordChainlinkFulfillment(_requestId) {
