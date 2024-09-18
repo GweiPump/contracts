@@ -60,7 +60,7 @@ contract GweiPump is ChainlinkClient, KeeperCompatibleInterface , Owned , IGweiP
         return uint256( ((int256(wtiPriceOracle*1003)*(10**18))/(1000)) / getLatestMaticUsd() );
     }
 
-    function Wti40Milliliters() public view returns (uint256) { // 1 US BBL = 158987.29 mL => WtiConvert140mL() = (40.00 mL * getLatesWtiUsd() ) / 158987.29 mL = ( (4000*getLatesWtiUsd() ) / 15898729 )
+    function getWti40Milliliters() public view returns (uint256) { // 1 US BBL = 158987.29 mL => WtiConvert140mL() = (40.00 mL * getLatesWtiUsd() ) / 158987.29 mL = ( (4000*getLatesWtiUsd() ) / 15898729 )
         return ( (4000*getLatestWtiMatic() ) /15898729);
     }
 
@@ -81,17 +81,19 @@ contract GweiPump is ChainlinkClient, KeeperCompatibleInterface , Owned , IGweiP
             ( block.timestamp >= (lastWtiPriceCheckUnixTime + 86400) ) 
             && 
             (IERC20(address(chainlinkTokenAddress)).balanceOf(address(this)) >= (0.01 ether) ) )) 
-            {revert upKeepNotNeeded(); }
+            revert upKeepNotNeeded(); 
         chainlinkNodeRequestWtiPrice();
     }
 
     function buyOil40Milliliters() public payable  {
-        if(isPumpFilled == 0) { revert pumpNotFilled(); }
-        if(Wti40Milliliters() == 0) { revert oraclePriceFeedZero(); }
-        if(msg.value < Wti40Milliliters() ) { revert msgValueTooSmall(); } // Price for MSG.VALUE can change in mempool. Allow user to overpay then refund them.
+        // Save the conversion in memory to save gas.
+        uint256 currentWti40Milliliters = getWti40Milliliters();
+        if(isPumpFilled == 0) revert pumpNotFilled();
+        if(currentWti40Milliliters == 0) revert oraclePriceFeedZero();
+        if(msg.value < currentWti40Milliliters ) revert msgValueTooSmall();  // Price for MSG.VALUE can change in mempool. Allow user to overpay then refund them.
         isPumpFilled = 0;
-        if(msg.value > Wti40Milliliters() ) { //Refund user if they overpaid.
-            (bool sentUser, ) = payable(msg.sender).call{value: msg.value -  Wti40Milliliters()}("");
+        if(msg.value > currentWti40Milliliters ) { //Refund user if they overpaid.
+            (bool sentUser, ) = payable(msg.sender).call{value: msg.value - currentWti40Milliliters}("");
             if(sentUser == false) revert etherNotSent(); 
         }
         (bool sentOwner, ) = payable(owner).call{value: address(this).balance}("");
