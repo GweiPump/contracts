@@ -13,6 +13,14 @@ import {Owned} from "solmate/auth/Owned.sol";
 
 contract GweiPump is ChainlinkClient, KeeperCompatibleInterface , Owned , IGweiPump {
 
+    // @notice Fee range defined in MAX_BPS is 10000 for 2 decimals places like Uniswap. 
+    // Example with houseEdgeFeePercent = 30: 30/10000 = 3/1000 = 0.3%.
+    // @dev Uniswap treats bps and ticks as the concept.
+    // https://support.uniswap.org/hc/en-us/articles/21069524840589-What-is-a-tick-when-providing-liquidity
+    int256 public constant MAX_BPS = 10000; 
+    // @notice 0.3% fee like Uniswap.
+    int256 public constant SCALE_FEE = 30; 
+
     uint256 public isPumpFilled = 1;
     uint256 public lastWtiPriceCheckUnixTime;
     uint256 public wtiPriceOracle; //Estimated value on request: 8476500000. Will get cross chain with Universal Adapter on Mumbai Polygon: https://etherscan.io/address/0xf3584f4dd3b467e73c2339efd008665a70a4185c#readContract latest price
@@ -27,7 +35,7 @@ contract GweiPump is ChainlinkClient, KeeperCompatibleInterface , Owned , IGweiP
     address private constant oracleSepolia = 0x6090149792dAAeE9D1D568c9f9a6F6B46AA29eFD; 
 
     constructor() Owned(msg.sender) {
-        priceFeedETHforUSD =  AggregatorV3Interface(0xd0D5e3DB44DE05E9F294BB0a3bEEaF030DE24Ada); //Pricefeed addresses: https://docs.chain.link/docs/data-feeds/price-feeds/addresses/?network=polygon#Mumbai%20Testnet
+        priceFeedETHforUSD =  AggregatorV3Interface(0x61Ec26aA57019C486B10502285c5A3D4A4750AD7);
         _setChainlinkToken(chainlinkTokenAddressSepolia); //Needed for Chainlink node data requests.
     }
 
@@ -35,9 +43,8 @@ contract GweiPump is ChainlinkClient, KeeperCompatibleInterface , Owned , IGweiP
         Chainlink.Request memory request = _buildChainlinkRequest(stringToBytes32(jobIdGetUint256Sepolia), address(this), this.fulfill.selector); //UINT
         request._add("get", "https://datasource.kapsarc.org/api/records/1.0/search/?dataset=spot-prices-for-crude-oil-and-petroleum-products&q=&facet=period");
         request._add("path", "records.0.fields.cushing_ok_wti_spot_price_fob_daily");
-        int timesAmount = 100000000;
-        request._addInt("times", timesAmount);
-        return _sendChainlinkRequestTo(oracleSepolia, request, ORACLE_PAYMENT); //0.01 LINK
+        request._addInt("times", 100000000);
+        return _sendChainlinkRequestTo(oracleSepolia, request, ORACLE_PAYMENT); 
     }
 
     function fulfill(bytes32 _requestId, uint memoryWtiPriceOracle) public recordChainlinkFulfillment(_requestId) {
@@ -62,7 +69,7 @@ contract GweiPump is ChainlinkClient, KeeperCompatibleInterface , Owned , IGweiP
         }
     }  
 
-    function getLatestMaticUsd() public view returns (int) { // Use MATIC since 40 Milliliters is not expensive and we can pay MATIC, easy to see in Metamask.
+    function getLatestEthUsd() public view returns (int256) { 
         (
             // uint80 roundID, 
             // int price, 
@@ -75,7 +82,7 @@ contract GweiPump is ChainlinkClient, KeeperCompatibleInterface , Owned , IGweiP
     }
 
     function getLatestWtiMatic() public view returns (uint256) { // Have a 0.3% fee with (1003*price)/1000
-        return uint256( ((int256(wtiPriceOracle*1003)*(10**18))/(1000)) / getLatestMaticUsd() );
+        return uint256( ( ( (int256(wtiPriceOracle)*(1 ether)*(MAX_BPS+SCALE_FEE)) )/(MAX_BPS)) / getLatestEthUsd() );
     }
 
     function getWti40Milliliters() public view returns (uint256) { // 1 US BBL = 158987.29 mL => WtiConvert140mL() = (40.00 mL * getLatesWtiUsd() ) / 158987.29 mL = ( (4000*getLatesWtiUsd() ) / 15898729 )
