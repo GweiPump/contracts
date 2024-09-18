@@ -91,9 +91,11 @@ contract GweiPump is ChainlinkClient, KeeperCompatibleInterface , Owned , IGweiP
         if(msg.value < Wti40Milliliters() ) { revert msgValueTooSmall(); } // Price for MSG.VALUE can change in mempool. Allow user to overpay then refund them.
         isPumpFilled = 0;
         if(msg.value > Wti40Milliliters() ) { //Refund user if they overpaid.
-            payable(msg.sender).transfer(msg.value -  Wti40Milliliters() );
+            (bool sentUser, ) = payable(msg.sender).call{value: msg.value -  Wti40Milliliters()}("");
+            if(sentUser == false) revert etherNotSent(); 
         }
-        payable(owner).transfer(address(this).balance);
+        (bool sentOwner, ) = payable(owner).call{value: address(this).balance}("");
+        if(sentOwner == false) revert etherNotSent();     
         emit oilBought();
     }
 

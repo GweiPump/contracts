@@ -7,6 +7,7 @@ interface IGweiPump {
     error msgValueTooSmall();
     error oraclePriceFeedZero();
     error upKeepNotNeeded();
+    error etherNotSent();
 
     // events
     event oilBought();
