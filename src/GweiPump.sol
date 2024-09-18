@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.26;
 
+import {IGweiPump} from "./interfaces/IGweiPump.sol";
 import {IERC20} from "./interfaces/IERC20.sol";
 // import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import {AggregatorV3Interface} from "chainlink/v0.8/interfaces/AggregatorV3Interface.sol"; 
@@ -10,22 +11,13 @@ import {ChainlinkClient,Chainlink} from "chainlink/v0.8/ChainlinkClient.sol";
 import {KeeperCompatibleInterface} from "chainlink/v0.8/KeeperCompatible.sol"; 
 import {Owned} from "solmate/auth/Owned.sol";
 
-error notOwner(); //Using custom errors with revert saves gas compared to using require.
-error pumpNotFilled();
-error msgValueTooSmall();
-error oraclePriceFeedZero();
-error upKeepNotNeeded();
+contract GweiPump is ChainlinkClient, KeeperCompatibleInterface , Owned , IGweiPump {
 
-contract GweiPump is ChainlinkClient, KeeperCompatibleInterface , Owned {
-
-    uint public isPumpFilled = 1;
-    uint public lastWtiPriceCheckUnixTime;
-    uint public WtiPriceOracle; //Estimated value on request: 8476500000. Will get cross chain with Universal Adapter on Mumbai Polygon: https://etherscan.io/address/0xf3584f4dd3b467e73c2339efd008665a70a4185c#readContract latest price
+    uint256 public isPumpFilled = 1;
+    uint256 public lastWtiPriceCheckUnixTime;
+    uint256 public wtiPriceOracle; //Estimated value on request: 8476500000. Will get cross chain with Universal Adapter on Mumbai Polygon: https://etherscan.io/address/0xf3584f4dd3b467e73c2339efd008665a70a4185c#readContract latest price
 
     address public constant chainlinkTokenAddress = 0x326C977E6efc84E512bB9C30f76E30c160eD06FB;
-
-    event oilBought();
-    event updateWti();
 
     AggregatorV3Interface internal priceFeedETHforUSD;
     using Chainlink for Chainlink.Request;
@@ -46,7 +38,7 @@ contract GweiPump is ChainlinkClient, KeeperCompatibleInterface , Owned {
 
     function fulfill(bytes32 _requestId, uint memoryWtiPriceOracle) public recordChainlinkFulfillment(_requestId) {
         if(memoryWtiPriceOracle > 0) {
-            WtiPriceOracle = memoryWtiPriceOracle;
+            wtiPriceOracle = memoryWtiPriceOracle;
         }
         lastWtiPriceCheckUnixTime = block.timestamp;
         emit updateWti();
@@ -64,11 +56,11 @@ contract GweiPump is ChainlinkClient, KeeperCompatibleInterface , Owned {
         return price;
     }
 
-    function getLatestWtiMatic() public view returns (uint) { // Have a 0.3% fee with (1003*price)/1000
-        return uint( ((int(WtiPriceOracle*1003)*(10**18))/(1000)) / getLatestMaticUsd() );
+    function getLatestWtiMatic() public view returns (uint256) { // Have a 0.3% fee with (1003*price)/1000
+        return uint256( ((int256(wtiPriceOracle*1003)*(10**18))/(1000)) / getLatestMaticUsd() );
     }
 
-    function Wti40Milliliters() public view returns (uint) { // 1 US BBL = 158987.29 mL => WtiConvert140mL() = (40.00 mL * getLatesWtiUsd() ) / 158987.29 mL = ( (4000*getLatesWtiUsd() ) / 15898729 )
+    function Wti40Milliliters() public view returns (uint256) { // 1 US BBL = 158987.29 mL => WtiConvert140mL() = (40.00 mL * getLatesWtiUsd() ) / 158987.29 mL = ( (4000*getLatesWtiUsd() ) / 15898729 )
         return ( (4000*getLatestWtiMatic() ) /15898729);
     }
 
@@ -105,8 +97,7 @@ contract GweiPump is ChainlinkClient, KeeperCompatibleInterface , Owned {
         emit oilBought();
     }
 
-    function ownerPumpFilledStatus(uint status) public {
-        if(msg.sender != owner){ revert notOwner();}
+    function ownerPumpFilledStatus(uint256 status) public onlyOwner {
         isPumpFilled = status;
     }
 
