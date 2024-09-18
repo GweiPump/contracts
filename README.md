@@ -28,11 +28,6 @@ https://query1.finance.yahoo.com/v8/finance/chart/CL=F
 
   https://automation.chain.link/
 
-Hardhat Solidity Coverage 100%:
-
-<img src="https://github.com/GweiPump/contracts/blob/main/tests/unit/testOutput.png" alt="Test"/>
-
-
 ## :cocktail: Vocktails
 
 ### Chainlink VRFv2
@@ -77,4 +72,12 @@ forge install smartcontractkit/chainlink-brownie-contracts --no-commit
 ### Install Solmate Library
 ```
 forge install rari-capital/solmate --no-commit
+```
+### Deploy and verify contract
+```
+forge create src/GweiPump.sol:GweiPump \
+--private-key $devTestnetPrivateKey \
+--rpc-url $sepoliaInfuraHttps \
+--etherscan-api-key $ETHERSCAN_API_KEY \
+--verify 
 ```

@@ -35,7 +35,9 @@ contract GweiPump is ChainlinkClient, KeeperCompatibleInterface , Owned , IGweiP
     address private constant oracleSepolia = 0x6090149792dAAeE9D1D568c9f9a6F6B46AA29eFD; 
 
     constructor() Owned(msg.sender) {
-        priceFeedETHforUSD =  AggregatorV3Interface(0x61Ec26aA57019C486B10502285c5A3D4A4750AD7);
+        // Sepolia pricefeeds: 
+        // https://docs.chain.link/data-feeds/price-feeds/addresses?network=ethereum&page=1&search=#sepolia-testnet
+        priceFeedETHforUSD =  AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306);
         _setChainlinkToken(chainlinkTokenAddressSepolia); //Needed for Chainlink node data requests.
     }
 
