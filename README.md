@@ -15,7 +15,6 @@ https://mumbai.polygonscan.com/address/0xd27759C36967E299ef16df8FAac24D4adb21665
   https://mumbai.polygonscan.com/address/0xd0D5e3DB44DE05E9F294BB0a3bEEaF030DE24Ada#code
 
 ### Chainlink Node GET Request uint
-
   -WTI/USD is on Ethereum Mainnet but not Mumbai, so GET WTI/USD from Kapsarc using LinkRiver Chainlink node request:
 
   https://datasource.kapsarc.org/explore/dataset/spot-prices-for-crude-oil-and-petroleum-products/api/
@@ -25,8 +24,13 @@ https://mumbai.polygonscan.com/address/0xd27759C36967E299ef16df8FAac24D4adb21665
   https://datasource.kapsarc.org/api/records/1.0/search/?dataset=spot-prices-for-crude-oil-and-petroleum-products&q=&facet=period
 
   with JSON path for WTI/USD:
+```
+records.0.fields.cushing_ok_wti_spot_price_fob_daily
+```
 
-        records.0.fields.cushing_ok_wti_spot_price_fob_daily
+Yahoo Finance Cruide Oil Futures Price:
+
+https://query1.finance.yahoo.com/v8/finance/chart/CL=F
 
   -Allow user to overpay for oil, then refund them if price changes while their payment is stuck in the mempool
 
