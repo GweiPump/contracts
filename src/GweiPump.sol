@@ -41,8 +41,8 @@ contract GweiPump is ChainlinkClient, KeeperCompatibleInterface , Owned , IGweiP
 
     function chainlinkNodeRequestWtiPrice() public returns (bytes32 requestId) {
         Chainlink.Request memory request = _buildChainlinkRequest(stringToBytes32(jobIdGetUint256Sepolia), address(this), this.fulfill.selector); //UINT
-        request._add("get", "https://datasource.kapsarc.org/api/records/1.0/search/?dataset=spot-prices-for-crude-oil-and-petroleum-products&q=&facet=period");
-        request._add("path", "records.0.fields.cushing_ok_wti_spot_price_fob_daily");
+        request._add("get", "https://query1.finance.yahoo.com/v8/finance/chart/CL=F");
+        request._add("path", "chart,result,0,meta,regularMarketPrice");
         request._addInt("times", 100000000);
         return _sendChainlinkRequestTo(oracleSepolia, request, ORACLE_PAYMENT); 
     }
