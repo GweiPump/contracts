@@ -2,31 +2,11 @@
 
 ## :oil_drum: GweiPump
 
-GweiPump verified contract on Mumbai:
-
-https://mumbai.polygonscan.com/address/0xd27759C36967E299ef16df8FAac24D4adb21665c#code
-
 ### Chainlink Pricefeeds
 
-  -MATIC/USD converted to on WTI/USD
-
-  -Using MATIC/USD pricefeed from Chainlink contract:
-
-  https://mumbai.polygonscan.com/address/0xd0D5e3DB44DE05E9F294BB0a3bEEaF030DE24Ada#code
+  -ETH/USD converted to on WTI/USD
 
 ### Chainlink Node GET Request uint
-  -WTI/USD is on Ethereum Mainnet but not Mumbai, so GET WTI/USD from Kapsarc using LinkRiver Chainlink node request:
-
-  https://datasource.kapsarc.org/explore/dataset/spot-prices-for-crude-oil-and-petroleum-products/api/
-
-  Kapsarc open source JSON WTI/USD URL (latest WTI/USD JSON path:
-
-  https://datasource.kapsarc.org/api/records/1.0/search/?dataset=spot-prices-for-crude-oil-and-petroleum-products&q=&facet=period
-
-  with JSON path for WTI/USD:
-```
-records.0.fields.cushing_ok_wti_spot_price_fob_daily
-```
 
 Yahoo Finance Cruide Oil Futures Price:
 
@@ -39,20 +19,14 @@ https://query1.finance.yahoo.com/v8/finance/chart/CL=F
   1 US BBL = 158987.29 mL =>
   WtiConvert140mL() = (40.00 mL * getLatesWtiUsd() ) / 158987.29 mL = ( (4000*getLatesWtiUsd() ) / 15898729 )
 
-  -Using LinkRiver node to get WTI/USD on Mumbai:
-
-  nodes: https://linkriver.io/#nodes
-
-  jobId: https://market.link/nodes/63a49b1a-1951-4887-8f3f-8684d70c41ea/jobs?network=80001
-
 ### Chainlink Keepers
 
   -Chainlink Keepers updates WTI/USD based timer on 1 day timer
   and if contract has >= 0.01 LINK [LinkRiver node request fee] )
 
-  Chainlink Keepers Log:
+  Chainlink Keepers Log Dashboard:
 
-  https://automation.chain.link/mumbai/6989339503514991400051131250819682806817201475595233657790971703276505316631
+  https://automation.chain.link/
 
 Hardhat Solidity Coverage 100%:
 
@@ -61,17 +35,13 @@ Hardhat Solidity Coverage 100%:
 
 ## :cocktail: Vocktails
 
-Vocktails verified contract on Mumbai:
-
-https://mumbai.polygonscan.com/address/0xc14708b1faf3737602ea69b68c893beb58bab5a7#code
-
 ### Chainlink VRFv2
 
   Get random drinks from robotics pump with Chainlink VRFv2.
 
-  Vocktails VRFv2 Subscription:
+  Vocktails VRFv2 Dashboard:
 
-  https://vrf.chain.link/mumbai/2217
+  https://vrf.chain.link/
 
 ## :camera: Slide Presentation
 

@@ -47,7 +47,7 @@ contract GweiPump is ChainlinkClient, KeeperCompatibleInterface , Owned , IGweiP
         return _sendChainlinkRequestTo(oracleSepolia, request, ORACLE_PAYMENT); 
     }
 
-    function fulfill(bytes32 _requestId, uint memoryWtiPriceOracle) public recordChainlinkFulfillment(_requestId) {
+    function fulfill(bytes32 _requestId, uint256 memoryWtiPriceOracle) public recordChainlinkFulfillment(_requestId) {
         if(memoryWtiPriceOracle > 0) {
             wtiPriceOracle = memoryWtiPriceOracle;
         }
