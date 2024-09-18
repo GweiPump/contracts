@@ -95,3 +95,16 @@ https://docs.google.com/presentation/d/1En3P14oi3CUcIWOaYxlzi5li4qDtajm3q3V0JpJf
   /html/body/div[4]/div[8]/div[2]/div/form/div
 
   :warning:
+
+## Foundry 
+
+:warning: Note: you might need to add libraries in forge with remappings.txt :warning:
+
+## Install Chainlink libraries
+```
+forge install smartcontractkit/chainlink-brownie-contracts --no-commit
+```
+### Install Solmate Library
+```
+forge install rari-capital/solmate --no-commit
+```
