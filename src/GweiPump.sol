@@ -6,12 +6,32 @@ import {IERC20} from "./interfaces/IERC20.sol";
 // import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import {AggregatorV3Interface} from "chainlink/v0.8/interfaces/AggregatorV3Interface.sol"; 
 // import "@chainlink/contracts/src/v0.8/ChainlinkClient.sol";
-import {ChainlinkClient,Chainlink} from "chainlink/v0.8/ChainlinkClient.sol"; 
+
+
+// import {FunctionsClient} from "@chainlink/contracts@1.2.0/src/v0.8/functions/v1_0_0/FunctionsClient.sol";
+import {FunctionsClient} from "chainlink/v0.8/functions/v1_0_0/FunctionsClient.sol"; 
+
+
+// import {ConfirmedOwner} from "@chainlink/contracts@1.2.0/src/v0.8/shared/access/ConfirmedOwner.sol";
+import {ConfirmedOwner} from "chainlink/v0.8/shared/access/ConfirmedOwner.sol"; 
+
+
+// import {FunctionsRequest} from "@chainlink/contracts@1.2.0/src/v0.8/functions/v1_0_0/libraries/FunctionsRequest.sol";
+import {FunctionsRequest} from "chainlink/v0.8/functions/v1_0_0/libraries/FunctionsRequest.sol"; 
+
+
+// import {ChainlinkClient,Chainlink} from "chainlink/v0.8/ChainlinkClient.sol"; 
+
+// import {ChainlinkClient,Chainlink} from "chainlink/v0.8/ChainlinkClient.sol"; 
+// import {ChainlinkClient,Chainlink} from "chainlink/v0.8/ChainlinkClient.sol"; 
+// import {ChainlinkClient,Chainlink} from "chainlink/v0.8/ChainlinkClient.sol"; 
+// import {ChainlinkClient,Chainlink} from "chainlink/v0.8/ChainlinkClient.sol"; 
+
 // import "@chainlink/contracts/src/v0.8/KeeperCompatible.sol";
 import {KeeperCompatibleInterface} from "chainlink/v0.8/KeeperCompatible.sol"; 
 import {Owned} from "solmate/auth/Owned.sol";
 
-contract GweiPump is ChainlinkClient, KeeperCompatibleInterface , Owned , IGweiPump {
+contract GweiPump is KeeperCompatibleInterface , Owned , IGweiPump {
 
     // @notice Fee range defined in MAX_BPS is 10000 for 2 decimals places like Uniswap. 
     // Example with houseEdgeFeePercent = 30: 30/10000 = 3/1000 = 0.3%.
@@ -26,9 +46,7 @@ contract GweiPump is ChainlinkClient, KeeperCompatibleInterface , Owned , IGweiP
     uint256 public wtiPriceOracle; //Estimated value on request: 8476500000. Will get cross chain with Universal Adapter on Mumbai Polygon: https://etherscan.io/address/0xf3584f4dd3b467e73c2339efd008665a70a4185c#readContract latest price
 
     AggregatorV3Interface internal priceFeedETHforUSD;
-    using Chainlink for Chainlink.Request;
 
-    uint256 public constant ORACLE_PAYMENT = (1 * LINK_DIVISIBILITY) / 10; // 0.1 * 10**18 (0.1 LINK)
     address public constant chainlinkTokenAddressSepolia = 0x779877A7B0D9E8603169DdbD7836e478b4624789;
     // Crude oil can go negative in theory (int). However, we will only accept prices greater than 0 (uint).
     string  private constant jobIdGetUint256Sepolia ="ca98366cc7314957b8c012c72f05aeeb"; 
@@ -38,23 +56,6 @@ contract GweiPump is ChainlinkClient, KeeperCompatibleInterface , Owned , IGweiP
         // Sepolia pricefeeds: 
         // https://docs.chain.link/data-feeds/price-feeds/addresses?network=ethereum&page=1&search=#sepolia-testnet
         priceFeedETHforUSD =  AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306);
-        _setChainlinkToken(chainlinkTokenAddressSepolia); //Needed for Chainlink node data requests.
-    }
-
-    function chainlinkNodeRequestWtiPrice() public returns (bytes32 requestId) {
-        Chainlink.Request memory request = _buildChainlinkRequest(stringToBytes32(jobIdGetUint256Sepolia), address(this), this.fulfill.selector); //UINT
-        request._add("get", "https://query1.finance.yahoo.com/v8/finance/chart/CL=F");
-        request._add("path", "chart,result,0,meta,regularMarketPrice");
-        request._addInt("times", 100000000);
-        return _sendChainlinkRequestTo(oracleSepolia, request, ORACLE_PAYMENT); 
-    }
-
-    function fulfill(bytes32 _requestId, uint256 memoryWtiPriceOracle) public recordChainlinkFulfillment(_requestId) {
-        if(memoryWtiPriceOracle > 0) {
-            wtiPriceOracle = memoryWtiPriceOracle;
-        }
-        lastWtiPriceCheckUnixTime = block.timestamp;
-        emit updateWti();
     }
 
     function stringToBytes32(
@@ -100,7 +101,7 @@ contract GweiPump is ChainlinkClient, KeeperCompatibleInterface , Owned , IGweiP
     }
 
     function performUpkeep(bytes calldata) external override {
-        chainlinkNodeRequestWtiPrice();
+        // chainlinkNodeRequestWtiPrice();
     }
 
     function manualUpKeep() public {
@@ -109,7 +110,7 @@ contract GweiPump is ChainlinkClient, KeeperCompatibleInterface , Owned , IGweiP
             && 
             (IERC20(address(chainlinkTokenAddressSepolia)).balanceOf(address(this)) >= (0.01 ether) ) )) 
             revert upKeepNotNeeded(); 
-        chainlinkNodeRequestWtiPrice();
+        // chainlinkNodeRequestWtiPrice();
     }
 
     function buyOil40Milliliters() public payable  {

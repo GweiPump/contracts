@@ -14,3 +14,6 @@ console.log('API response data:');
 const wtiUsd = 100*(data.chart.result[0].meta.regularMarketPrice)
 console.log(wtiUsd);
 return Functions.encodeUint256(wtiUsd)
+// Format the Function script with the following 
+// tool to add quotes for each line for Solidity:
+// https://onlinetexttools.com/add-quotes-to-lines
