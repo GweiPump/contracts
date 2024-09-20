@@ -133,14 +133,15 @@ contract GweiPump is FunctionsClient , Owned , IGweiPump {
         "}"
         "const { data } = apiResponse;"
         "console.log('API response data:');"
-        "const wtiUsdScaled = 100*(data.chart.result[0].meta.regularMarketPrice);"
-        "console.log(wtiUsdScaled);"
-        "const wtiUsdTypeInt = Math.floor(parseInt(wtiUsdScaled) ) ;"
-        "console.log(wtiUsdTypeInt);"
-        "return Functions.encodeUint256( wtiUsdTypeInt );"
+        "const wtiUsdRaw = (data.chart.result[0].meta.regularMarketPrice);"
+        "console.log(wtiUsdRaw);"
+        "const wtiUsdTypeIntScaled = Math.round(wtiUsdRaw*100);"
+        "console.log(wtiUsdTypeIntScaled);"
+        "return Functions.encodeUint256(wtiUsdTypeIntScaled);"
         "// Format the Function script with the following "
         "// tool to add quotes for each line for Solidity:"
-        "// https://onlinetexttools.com/add-quotes-to-lines";
+        "// https://onlinetexttools.com/add-quotes-to-lines"      
+    ;
 
     //Callback gas limit
     uint32 constant gasLimit = 300000;
@@ -193,7 +194,8 @@ contract GweiPump is FunctionsClient , Owned , IGweiPump {
         }
         // Update the contract's state variables with the response and any errors
         s_lastResponse = response;
-        wtiPriceOracle = uint256(bytes32(response));
+        // wtiPriceOracle = response;
+        wtiPriceOracle = abi.decode(response, (uint256) );
         s_lastError = err;
 
         // Emit an event to log the response
