@@ -77,7 +77,7 @@ forge install rari-capital/solmate --no-commit
 ```
 forge create src/GweiPump.sol:GweiPump \
 --private-key $devTestnetPrivateKey \
---rpc-url $sepoliaInfuraHttps \
---etherscan-api-key $ETHERSCAN_API_KEY \
+--rpc-url $baseSepoliaHTTPS \
+--etherscan-api-key $basescanApiKey \
 --verify 
 ```

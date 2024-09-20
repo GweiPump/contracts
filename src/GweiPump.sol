@@ -13,7 +13,7 @@ import {FunctionsRequest} from "chainlink/v0.8/functions/v1_0_0/libraries/Functi
 // import {KeeperCompatibleInterface} from "chainlink/v0.8/KeeperCompatible.sol"; 
 import {Owned} from "solmate/auth/Owned.sol";
 
-// contract GweiPump is FunctionsClient , Owned , KeeperCompatibleInterface ,IGweiPump {
+// contract GweiPumTrade spot, margin, futures & OTC p is FunctionsClient , Owned , KeeperCompatibleInterface ,IGweiPump {
 contract GweiPump is FunctionsClient , Owned , IGweiPump {
 
     // @notice Fee range defined in MAX_BPS is 10000 for 2 decimals places like Uniswap. 
@@ -29,15 +29,10 @@ contract GweiPump is FunctionsClient , Owned , IGweiPump {
 
     AggregatorV3Interface internal priceFeedETHforUSD;
 
-    address public constant chainlinkTokenAddressSepolia = 0x779877A7B0D9E8603169DdbD7836e478b4624789;
-    // Crude oil can go negative in theory (int). However, we will only accept prices greater than 0 (uint).
-    string  private constant jobIdGetUint256Sepolia ="ca98366cc7314957b8c012c72f05aeeb"; 
-    address private constant oracleSepolia = 0x6090149792dAAeE9D1D568c9f9a6F6B46AA29eFD; 
-
-    constructor() FunctionsClient(router)  Owned(msg.sender)  {
-        // Sepolia pricefeeds: 
-        // https://docs.chain.link/data-feeds/price-feeds/addresses?network=ethereum&page=1&search=#sepolia-testnet
-        priceFeedETHforUSD =  AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306);
+    constructor() FunctionsClient(routerBaseSepolia)  Owned(msg.sender)  {
+        // https://docs.chain.link/data-feeds/price-feeds/addresses?network=base&page=1#base-sepolia-testnet
+        // ETH/USD
+        priceFeedETHforUSD =  AggregatorV3Interface(0x4aDC67696bA383F43DD60A9e78F2C97Fbbfc7cb1);
     }
 
     function stringToBytes32(
@@ -104,6 +99,11 @@ contract GweiPump is FunctionsClient , Owned , IGweiPump {
     bytes public s_lastResponse;
     bytes public s_lastError;
 
+    // State variable to store the returned character information
+    // string public wtiPriceOracle; //Estimated value on request: 8476500000. Will get cross chain with Universal Adapter on Mumbai Polygon: https://etherscan.io/address/0xf3584f4dd3b467e73c2339efd008665a70a4185c#readContract latest price
+    uint256 public wtiPriceOracle; //Estimated value on request: 8476500000. Will get cross chain with Universal Adapter on Mumbai Polygon: https://etherscan.io/address/0xf3584f4dd3b467e73c2339efd008665a70a4185c#readContract latest price
+
+
     // // Custom error type
     // error UnexpectedRequestID(bytes32 requestId);
 
@@ -115,9 +115,16 @@ contract GweiPump is FunctionsClient , Owned , IGweiPump {
     //     bytes err
     // );
 
-    // Router address - Hardcoded for Sepolia
-    // Check to get the router address for your supported network https://docs.chain.link/chainlink-functions/supported-networks
-    address constant router = 0xb83E47C2bC239B3bf370bc41e1459A34b41238D0;
+    // Router address. Check to get the router address for your supported network 
+    // https://docs.chain.link/chainlink-functions/supported-networks#base-sepolia-testnet
+    address constant routerBaseSepolia = 0xf9B8fc078197181C841c296C876945aaa425B278;
+
+    // donID. Check to get the donID for your supported network 
+    // https://docs.chain.link/chainlink-functions/supported-networks#base-sepolia-testnet
+    bytes32 constant donIDBaseSepolia = 0x66756e2d626173652d7365706f6c69612d310000000000000000000000000000;
+    
+    //Callback gas limit
+    uint32 constant gasLimit = 300000;
 
     // JavaScript source code
     // Fetch character name from the Star Wars API.
@@ -165,17 +172,6 @@ contract GweiPump is FunctionsClient , Owned , IGweiPump {
         // "// https://onlinetexttools.com/add-quotes-to-lines"
     ;
 
-    //Callback gas limit
-    uint32 constant gasLimit = 300000;
-
-    // donID - Hardcoded for Sepolia
-    // Check to get the donID for your supported network https://docs.chain.link/chainlink-functions/supported-networks
-    bytes32 constant donID = 0x66756e2d657468657265756d2d7365706f6c69612d3100000000000000000000;
-
-    // State variable to store the returned character information
-    // string public wtiPriceOracle; //Estimated value on request: 8476500000. Will get cross chain with Universal Adapter on Mumbai Polygon: https://etherscan.io/address/0xf3584f4dd3b467e73c2339efd008665a70a4185c#readContract latest price
-    uint256 public wtiPriceOracle; //Estimated value on request: 8476500000. Will get cross chain with Universal Adapter on Mumbai Polygon: https://etherscan.io/address/0xf3584f4dd3b467e73c2339efd008665a70a4185c#readContract latest price
-
     /**
      * @notice Sends an HTTP request for character information
      * @param subscriptionId The ID for the Chainlink subscription
@@ -195,7 +191,7 @@ contract GweiPump is FunctionsClient , Owned , IGweiPump {
             req.encodeCBOR(),
             subscriptionId,
             gasLimit,
-            donID
+            donIDBaseSepolia
         );
 
         return s_lastRequestId;
