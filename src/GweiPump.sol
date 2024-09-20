@@ -20,9 +20,9 @@ contract GweiPump is FunctionsClient , Owned , IGweiPump {
     // Example with houseEdgeFeePercent = 30: 30/10000 = 3/1000 = 0.3%.
     // @dev Uniswap treats bps and ticks as the concept.
     // https://support.uniswap.org/hc/en-us/articles/21069524840589-What-is-a-tick-when-providing-liquidity
-    int256 public constant MAX_BPS = 10000; 
+    uint256 public constant MAX_BPS = 10000; 
     // @notice 0.3% fee like Uniswap.
-    int256 public constant SCALE_FEE = 30; 
+    uint256 public constant SCALE_FEE = 30; 
 
     uint256 public isPumpFilled = 1;
     uint256 public lastWtiPriceCheckUnixTime;
@@ -49,7 +49,7 @@ contract GweiPump is FunctionsClient , Owned , IGweiPump {
         }
     }  
 
-    function getLatestEthUsd() public view returns (int256) { 
+    function getLatestEthUsdPennies() public view returns (uint256) { 
         (
             // uint80 roundID, 
             // int price, 
@@ -58,12 +58,12 @@ contract GweiPump is FunctionsClient , Owned , IGweiPump {
             // uint80 answeredInRound
              ,int256 price, , ,
         ) = priceFeedETHforUSD.latestRoundData();
-        return price;
+        uint256 scaleToPennies = uint256(price)/1000000;
+        return scaleToPennies;
     }
 
     function getLatestWtiEth() public view returns (uint256) { // Have a 0.3% fee with (1003*price)/1000
-        // uint256 wtiPriceOracleUint = 7000;
-        return uint256( ( ( (int256(wtiPriceOracle)*(1 ether)*(MAX_BPS+SCALE_FEE)) )/(MAX_BPS)) / getLatestEthUsd() );
+        return ( ( ( (wtiUsdPenniesPriceOracle)*(1 ether)*(MAX_BPS+SCALE_FEE)) )/(MAX_BPS)) / getLatestEthUsdPennies();
     }
 
     function getWti40Milliliters() public view returns (uint256) { // 1 US BBL = 158987.29 mL => WtiConvert140mL() = (40.00 mL * getLatesWtiUsd() ) / 158987.29 mL = ( (4000*getLatesWtiUsd() ) / 15898729 )
@@ -101,7 +101,7 @@ contract GweiPump is FunctionsClient , Owned , IGweiPump {
 
     // State variable to store the returned character information
     // string public wtiPriceOracle; //Estimated value on request: 8476500000. Will get cross chain with Universal Adapter on Mumbai Polygon: https://etherscan.io/address/0xf3584f4dd3b467e73c2339efd008665a70a4185c#readContract latest price
-    uint256 public wtiPriceOracle; //Estimated value on request: 8476500000. Will get cross chain with Universal Adapter on Mumbai Polygon: https://etherscan.io/address/0xf3584f4dd3b467e73c2339efd008665a70a4185c#readContract latest price
+    uint256 public wtiUsdPenniesPriceOracle; //Estimated value on request: 8476500000. Will get cross chain with Universal Adapter on Mumbai Polygon: https://etherscan.io/address/0xf3584f4dd3b467e73c2339efd008665a70a4185c#readContract latest price
 
 
     // // Custom error type
@@ -213,11 +213,11 @@ contract GweiPump is FunctionsClient , Owned , IGweiPump {
         }
         // Update the contract's state variables with the response and any errors
         s_lastResponse = response;
-        wtiPriceOracle = abi.decode(response, (uint256));
+        wtiUsdPenniesPriceOracle = abi.decode(response, (uint256));
         s_lastError = err;
 
         // Emit an event to log the response
-        emit Response(requestId, wtiPriceOracle, s_lastResponse, s_lastError);
+        emit Response(requestId, wtiUsdPenniesPriceOracle, s_lastResponse, s_lastError);
     }
 
     // Chainlink Keepers logic from the original contract with 
