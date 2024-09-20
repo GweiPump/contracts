@@ -8,8 +8,15 @@ interface IGweiPump {
     error oraclePriceFeedZero();
     error upKeepNotNeeded();
     error etherNotSent();
+    error UnexpectedRequestID(bytes32 requestId);
 
     // events
     event oilBought();
     event updateWti();
+    event Response(
+        bytes32 indexed requestId,
+        uint256 value,
+        bytes response,
+        bytes err
+    );
 }
