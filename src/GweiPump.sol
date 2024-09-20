@@ -67,7 +67,8 @@ contract GweiPump is FunctionsClient , Owned , IGweiPump {
     }
 
     function getLatestWtiEth() public view returns (uint256) { // Have a 0.3% fee with (1003*price)/1000
-        return uint256( ( ( (int256(wtiPriceOracle)*(1 ether)*(MAX_BPS+SCALE_FEE)) )/(MAX_BPS)) / getLatestEthUsd() );
+        uint256 wtiPriceOracleUint = 7000;
+        return uint256( ( ( (int256(wtiPriceOracleUint)*(1 ether)*(MAX_BPS+SCALE_FEE)) )/(MAX_BPS)) / getLatestEthUsd() );
     }
 
     function getWti40Milliliters() public view returns (uint256) { // 1 US BBL = 158987.29 mL => WtiConvert140mL() = (40.00 mL * getLatesWtiUsd() ) / 158987.29 mL = ( (4000*getLatesWtiUsd() ) / 15898729 )
@@ -121,26 +122,26 @@ contract GweiPump is FunctionsClient , Owned , IGweiPump {
     // JavaScript source code
     // Fetch character name from the Star Wars API.
     // Documentation: https://swapi.info/people
-    string constant javascriptSourceCode =
-        "// Test in :"
-        "// https://functions.chain.link/playground"
-        "const apiResponse = await Functions.makeHttpRequest({"
-        "  url: `https://query1.finance.yahoo.com/v8/finance/chart/CL=F`"
-        "})"
-        "if (apiResponse.error) {"
-        "  console.error(apiResponse.error)"
-        "  throw Error('Request failed');"
-        "}"
-        "const { data } = apiResponse;"
-        "console.log('API response data:');"
-        "const wtiUsdRaw = (data.chart.result[0].meta.regularMarketPrice);"
-        "console.log(wtiUsdRaw);"
-        "const wtiUsdTypeIntScaled = Math.round(wtiUsdRaw*100);"
-        "console.log(wtiUsdTypeIntScaled);"
-        "return Functions.encodeUint256(wtiUsdTypeIntScaled);"
-        "// Format the Function script with the following "
-        "// tool to add quotes for each line for Solidity:"
-        "// https://onlinetexttools.com/add-quotes-to-lines"      
+    string constant javascriptSourceCode = "const apiResponse = await Functions.makeHttpRequest({url: `https://query1.finance.yahoo.com/v8/finance/chart/CL=F`}); if (apiResponse.error) {console.error(apiResponse.error);throw Error('Request failed');} const { data } = apiResponse; console.log('API response data:'); const wtiUsdRaw = (data.chart.result[0].meta.regularMarketPrice); console.log(wtiUsdRaw); const wtiUsdTypeIntScaled = Math.round(wtiUsdRaw*100); console.log(wtiUsdTypeIntScaled); return Functions.encodeString(wtiUsdTypeIntScaled.toString());"
+        // "// Test in :"
+        // "// https://functions.chain.link/playground"
+        // "const apiResponse = await Functions.makeHttpRequest({"
+        // "  url: `https://query1.finance.yahoo.com/v8/finance/chart/CL=F`"
+        // "})"
+        // "if (apiResponse.error) {"
+        // "  console.error(apiResponse.error)"
+        // "  throw Error('Request failed');"
+        // "}"
+        // "const { data } = apiResponse;"
+        // "console.log('API response data:');"
+        // "const wtiUsdRaw = (data.chart.result[0].meta.regularMarketPrice);"
+        // "console.log(wtiUsdRaw);"
+        // "const wtiUsdTypeIntScaled = Math.round(wtiUsdRaw*100);"
+        // "console.log(wtiUsdTypeIntScaled);"
+        // "return Functions.encodeString(wtiUsdTypeIntScaled.toString());"
+        // "// Format the Function script with the following "
+        // "// tool to add quotes for each line for Solidity:"
+        // "// https://onlinetexttools.com/add-quotes-to-lines"
     ;
 
     //Callback gas limit
@@ -151,7 +152,7 @@ contract GweiPump is FunctionsClient , Owned , IGweiPump {
     bytes32 constant donID = 0x66756e2d657468657265756d2d7365706f6c69612d3100000000000000000000;
 
     // State variable to store the returned character information
-    uint256 public wtiPriceOracle; //Estimated value on request: 8476500000. Will get cross chain with Universal Adapter on Mumbai Polygon: https://etherscan.io/address/0xf3584f4dd3b467e73c2339efd008665a70a4185c#readContract latest price
+    string public wtiPriceOracle; //Estimated value on request: 8476500000. Will get cross chain with Universal Adapter on Mumbai Polygon: https://etherscan.io/address/0xf3584f4dd3b467e73c2339efd008665a70a4185c#readContract latest price
 
     /**
      * @notice Sends an HTTP request for character information
@@ -194,8 +195,7 @@ contract GweiPump is FunctionsClient , Owned , IGweiPump {
         }
         // Update the contract's state variables with the response and any errors
         s_lastResponse = response;
-        // wtiPriceOracle = response;
-        wtiPriceOracle = abi.decode(response, (uint256) );
+        wtiPriceOracle = string(response);
         s_lastError = err;
 
         // Emit an event to log the response

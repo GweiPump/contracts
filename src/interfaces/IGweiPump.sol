@@ -15,7 +15,7 @@ interface IGweiPump {
     event updateWti();
     event Response(
         bytes32 indexed requestId,
-        uint256 value,
+        string value,
         bytes response,
         bytes err
     );
